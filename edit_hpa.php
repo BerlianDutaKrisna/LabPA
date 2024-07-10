@@ -15,6 +15,10 @@ WHERE id_hpa = $id_hpa")[0];
 $DATA_DOKTER = query("SELECT * FROM dokter WHERE spesialis_dokter = 'patologi anatomi'");
 $DATA_PENGIRIM = query("SELECT * FROM pengirim INNER JOIN dokter ON pengirim.id_dokter = dokter.id_dokter");
 
+if (isset($_POST["btn_simpan_hpa"])) {
+    var_dump($_POST);die;
+    $upload = upload($_POST);
+}
 
 if( isset($_POST["submit"])) {
     
@@ -412,22 +416,21 @@ if( isset($_POST["submit"])) {
                             </div>
                             <div class="card-body">
                                 <form action="" method="post">
+                                <input type="hidden" name="fotolama" value="<?=$DATA_HPA["foto_hpa"];?>">
                                     <label class="mb-2">Foto HPA</label>
                                     <div class="form-group col-6 mw-100">
                                         <img src="img/<?= $DATA_HPA["foto_hpa"];?>" width="200" alt="">
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-5 mw-100">
-                                        <input type="file" name="foto" id="foto" class="form-control form-control-user">
+                                        <input type="file" name="foto_hpa" value="<?=$DATA_HPA["foto_hpa"];?>" class="form-control form-control-user">
                                         </div>
                                         <div class="form-group col-3 mw-100">
-                                            <button type="submit" name="btn_upload_hpa" class="btn btn-primary btn-user btn-block">
+                                            <button type="submit" name="btn_simpan_hpa" class="btn btn-primary btn-user btn-block">
                                             <i class="fas fa-cloud-upload-alt"></i> upload
                                             </button>
                                         </div>                    
                                     </div>
-                                </form>
-                                <form action="" method="post">
                                 <input type="hidden" name="id_hpa" value="<?=$DATA_HPA["id_hpa"];?>">
                                 <div class="row">
                                     <div class="form-group col-3 mw-100">
@@ -455,15 +458,15 @@ if( isset($_POST["submit"])) {
                                         <label class="mb-2">Tanggal Janji Hasil</label>
                                             <input type="date" name="tgl_hasil_hpa" value="<?=$DATA_HPA["tgl_hasil_hpa"];?>" class="form-control form-control-user" autocomplete="off">
                                         </div>
-                                </div>                       
+                                </div>
+                                <input type="hidden" name="id_pasien" value="<?=$DATA_HPA["id_pasien"];?>">                      
                                 <div class="form-group col-6 mw-100">
                                 <label class="mb-2">Nama Pasien</label>
                                     <input type="text" name="nama_pasien" value="<?=$DATA_HPA["nama_pasien"];?>" class="form-control form-control-user" autocomplete="off">
                                 </div>
                                 <div class="form-group col-6 mw-100">
                                 <label class="mb-2">Makroskopis</label>
-                                <textarea type="text" name="makroskopis_hpa" class="form-control form-control-user" autocomplete="off" autofocus><?=$DATA_HPA["makroskopis_hpa"];?>
-                                </textarea>
+                                <textarea type="text" name="makroskopis_hpa" class="form-control form-control-user" autocomplete="off" autofocus><?=$DATA_HPA["makroskopis_hpa"];?></textarea>
                                 </div>
                                 <div class="form-group col-1">
                                 <label class="mb-2">Jumlah Kaset</label>
@@ -521,7 +524,7 @@ if( isset($_POST["submit"])) {
                                         </a>
                                     </div>
                                     <div class="form-group col-2 mw-100">
-                                        <button type="submit" name="btn_tambah_pasien" class="btn btn-success btn-user btn-block">
+                                        <button type="submit" name="btn_simpan_hpa" class="btn btn-success btn-user btn-block">
                                         <i class="fas fa-save"></i></i> Simpan
                                         </button>
                                     </div>                    

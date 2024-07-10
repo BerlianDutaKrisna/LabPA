@@ -38,6 +38,7 @@ if (isset($_POST["btn_proses_mulai"])) {
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
         }
+
     } 
 if (isset($_POST["btn_proses_selesai"])) {
     $ks1 = isset($_POST["ks1"]) ? $_POST["ks1"] : 0;
@@ -47,7 +48,6 @@ if (isset($_POST["btn_proses_selesai"])) {
     kualitas_sediaan = '$total_kualitas_sediaan'
     WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
     header("Location: samples_accepted.php");
-    }
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
         $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
@@ -59,6 +59,7 @@ if (isset($_POST["btn_proses_selesai"])) {
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
         }
+    }
 if (isset($_POST["btn_proses_lanjut"])) {
     if (!empty($_POST['id_proses'])) {        
         $id_analis = $_POST['id_analis'];

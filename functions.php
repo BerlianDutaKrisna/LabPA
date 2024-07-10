@@ -165,6 +165,50 @@ function tambah($data){
     return mysqli_affected_rows($conn);
 }
 
+function edit_hpa($EDIT_HPA){
+    global $conn;
+    
+    $id_hpa = $EDIT_HPA["id_hpa"];
+    $kode_hpa = $EDIT_HPA["kode_hpa"];
+    $makroskopis_hpa = $EDIT_HPA["makroskopis_hpa"];
+    $mikroskopis_hpa = $EDIT_HPA["mikroskopis_hpa"];
+    $fotolama = $EDIT_HPA["fotolama"];
+    if( $_FILES['foto_hpa']['error'] === 4){
+        $$foto_hpa = $fotolama;
+    } else {
+        $foto_hpa = upload();
+    }
+    $jumlah_kaset = $EDIT_HPA["jumlah_kaset"];
+    $tgl_hpa = $EDIT_HPA["tgl_hpa"];
+    $tgl_hasil_hpa = $EDIT_HPA["tgl_hasil_hpa"];
+    $diagnosis_hpa = $EDIT_HPA["diagnosis_hpa"];
+    $hasil_hpa = $EDIT_HPA["hasil_hpa"];
+    $id_pasien = $EDIT_HPA["id_pasien"];
+    $id_dokter = $EDIT_HPA["id_dokter"];
+    $id_pengirim = $EDIT_HPA["id_pengirim"];
+    $kualitas_sediaan = $EDIT_HPA["kualitas_sediaan"];
+    
+    $query = "UPDATE hpa SET 
+    kode_hpa = '$kode_hpa', 
+    makroskopis_hpa = '$makroskopis_hpa', 
+    mikroskopis_hpa ='$mikroskopis_hpa', 
+    foto_hpa ='$foto_hpa', 
+    jumlah_kaset = '$jumlah_kaset', 
+    tgl_hpa = '$tgl_hpa', 
+    tgl_hasil_hpa = $tgl_hasil_hpa', 
+    diagnosis_hpa = '$diagnosis_hpa',
+    hasil_hpa = '$hasil_hpa',
+    id_pasien = '$id_pasien',
+    id_dokter = '$id_dokter',
+    id_pengirim = '$id_pengirim',
+    kualitas_sediaan = '$kualitas_sediaan'
+    WHERE id_hpa = $id_hpa";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+
+}
 function upload() {
     $namafile = $_FILES['foto']['name'];
     $ukuranfile = $_FILES['foto']['size'];
