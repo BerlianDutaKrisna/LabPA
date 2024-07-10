@@ -46,14 +46,18 @@ function tambah_pasien($TAMBAH_DATA_PASIEN){
     mysqli_query($conn,"INSERT INTO pasien
             VALUES ('','$norm_pasien','$nama_pasien','$alamat_pasien','$jk_pasien','$tgl_lahir_pasien','$status_pasien')");
             if (mysqli_affected_rows($conn) > 0 ){
+                echo
                 "<script>
-                 alert('Data Pasien Berhasi Ditambahkan');
-                 </script>";
-                return $TAMBAH_DATA_PASIEN;
+                 alert('Data Pasien Berhasi Ditambahkan');               
+                document.location.href = 'tambah_pasien.php';
+                </script>";    ;
             }   else {
                 echo
                 "<script>
                  alert('Gagal Ditambahkan!');
+                 </script>";
+                 var_dump(mysqli_error($conn)); die;
+                 "<script>
                  document.location.href = 'tambah_pasien.php';
                  </script>";
             }

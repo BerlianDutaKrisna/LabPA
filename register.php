@@ -29,7 +29,8 @@ session_destroy();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Register</title>
+    <title>Traker Histopatologi</title>
+    <link href='img/favicon.ico' rel='shortcut icon'>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
