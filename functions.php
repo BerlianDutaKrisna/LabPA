@@ -167,14 +167,14 @@ function tambah($data){
 
 function edit_hpa($EDIT_HPA){
     global $conn;
-    
+
     $id_hpa = $EDIT_HPA["id_hpa"];
     $kode_hpa = $EDIT_HPA["kode_hpa"];
     $makroskopis_hpa = $EDIT_HPA["makroskopis_hpa"];
     $mikroskopis_hpa = $EDIT_HPA["mikroskopis_hpa"];
     $fotolama = $EDIT_HPA["fotolama"];
     if( $_FILES['foto_hpa']['error'] === 4){
-        $$foto_hpa = $fotolama;
+        $foto_hpa = $fotolama;
     } else {
         $foto_hpa = upload();
     }
@@ -184,7 +184,7 @@ function edit_hpa($EDIT_HPA){
     $diagnosis_hpa = $EDIT_HPA["diagnosis_hpa"];
     $hasil_hpa = $EDIT_HPA["hasil_hpa"];
     $id_pasien = $EDIT_HPA["id_pasien"];
-    $id_dokter = $EDIT_HPA["id_dokter"];
+    $id_dokter= $EDIT_HPA["id_dokter"];
     $id_pengirim = $EDIT_HPA["id_pengirim"];
     $kualitas_sediaan = $EDIT_HPA["kualitas_sediaan"];
     
@@ -195,33 +195,27 @@ function edit_hpa($EDIT_HPA){
     foto_hpa ='$foto_hpa', 
     jumlah_kaset = '$jumlah_kaset', 
     tgl_hpa = '$tgl_hpa', 
-    tgl_hasil_hpa = $tgl_hasil_hpa', 
+    tgl_hasil_hpa = '$tgl_hasil_hpa', 
     diagnosis_hpa = '$diagnosis_hpa',
     hasil_hpa = '$hasil_hpa',
-    id_pasien = '$id_pasien',
-    id_dokter = '$id_dokter',
-    id_pengirim = '$id_pengirim',
-    kualitas_sediaan = '$kualitas_sediaan'
+    id_pasien = $id_pasien,
+    id_dokter = $id_dokter,
+    id_pengirim = $id_pengirim,
+    kualitas_sediaan = $kualitas_sediaan
     WHERE id_hpa = $id_hpa";
 
     mysqli_query($conn, $query);
-
+    echo 
+    "<script>
+    alert ('Data berasil diubah');
+    </script>";  
     return mysqli_affected_rows($conn);
 
 }
 function upload() {
-    $namafile = $_FILES['foto']['name'];
-    $ukuranfile = $_FILES['foto']['size'];
-    $error = $_FILES['foto']['error'];
-    $tmpname = $_FILES['foto']['tmp_name'];
-
-    if ( $error === 4){
-        echo "<script>
-                alert ('Pilih gambar terlebih dahulu');
-              </script>";
-              return false;
-    }
-
+    $namafile = $_FILES['foto_hpa']['name'];
+    $ukuranfile = $_FILES['foto_hpa']['size'];
+    $tmpname = $_FILES['foto_hpa']['tmp_name'];
     $cekjenisgambar = ['jpg','jpeg','png','svg'];
     $ekstensigambar = explode('.',$namafile);
     $ekstensigambar = strtolower(end($ekstensigambar));
@@ -242,7 +236,7 @@ function upload() {
     $namafilebaru .='.';
     $namafilebaru .= $ekstensigambar;
 
-    move_uploaded_file($tmpname,'img/'.$namafilebaru);
+    move_uploaded_file($tmpname,'img/foto_hpa/'.$namafilebaru);
     return $namafilebaru;
 
 }
