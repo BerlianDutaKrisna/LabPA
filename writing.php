@@ -21,6 +21,8 @@ if (isset($_POST["btn_proses_mulai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'writing', id_analis = '$id_analis', tgl_mengerjakan = '$tgl_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 if (isset($_POST["btn_proses_selesai"])) {
@@ -30,6 +32,8 @@ if (isset($_POST["btn_proses_selesai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'already written', id_analis = '$id_analis', tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
@@ -37,13 +41,17 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'done', status_proses = 'done', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_kembali"])) {
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'reading, status_proses = 'unread', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'reading', status_proses = 'unread', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 ?>

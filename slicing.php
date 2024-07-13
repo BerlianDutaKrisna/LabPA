@@ -37,6 +37,8 @@ if (isset($_POST["btn_proses_mulai"])) {
         tgl_mengerjakan = '$tgl_mengerjakan' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 if (isset($_POST["btn_proses_selesai"])) {
@@ -50,6 +52,8 @@ if (isset($_POST["btn_proses_selesai"])) {
         tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
@@ -63,6 +67,8 @@ if (isset($_POST["btn_proses_lanjut"])) {
         tgl_selesai_mengerjakan = NULL 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_kembali"])) {
@@ -76,6 +82,8 @@ if (isset($_POST["btn_proses_kembali"])) {
         tgl_selesai_mengerjakan = NULL 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 ?>

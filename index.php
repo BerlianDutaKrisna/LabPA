@@ -816,8 +816,12 @@ WHERE jenis_proses != 'selesai'");
                         <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Trimming <i class="fas fa-grip-horizontal"></i></th>
-                                        
+                                        <th colspan="6"><a href="trimming.php" class="btn btn-primary btn-icon-split btn-sm">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-grip-horizontal"></i>
+                                            </span>
+                                            <span class="text">Trimming</span></a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -833,11 +837,11 @@ WHERE jenis_proses != 'selesai'");
                                     <?php foreach ($data_trimming as $row) : ?>
                                         <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
-                                            if ($status_proses == "accepted") {
+                                            if ($status_proses == "not trimmed") {
                                                 $class = "diterima";
-                                            } elseif ($status_proses == "checking") {
+                                            } elseif ($status_proses == "trimming") {
                                                 $class = "mulai";
-                                            } elseif ($status_proses == "checked") {
+                                            } elseif ($status_proses == "trimmed") {
                                                 $class = "selesai";
                                             } ?>
                                     <tr>
@@ -857,7 +861,12 @@ WHERE jenis_proses != 'selesai'");
                         <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Reading <i class="fas fa-microscope"></i></th>
+                                        <th colspan="6"><a href="reading.php" class="btn btn-primary btn-icon-split btn-sm">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-microscope"></i>
+                                            </span>
+                                            <span class="text">Reading</span></a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -873,11 +882,11 @@ WHERE jenis_proses != 'selesai'");
                                     <?php foreach ($data_reading as $row) : ?>
                                         <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
-                                            if ($status_proses == "accepted") {
+                                            if ($status_proses == "unread") {
                                                 $class = "diterima";
-                                            } elseif ($status_proses == "checking") {
+                                            } elseif ($status_proses == "reading") {
                                                 $class = "mulai";
-                                            } elseif ($status_proses == "checked") {
+                                            } elseif ($status_proses == "already read") {
                                                 $class = "selesai";
                                             } ?>
                                     <tr>
@@ -897,7 +906,12 @@ WHERE jenis_proses != 'selesai'");
                         <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Writing <i class="fas fa-keyboard"></i></th>
+                                        <th colspan="6"><a href="writing.php" class="btn btn-primary btn-icon-split btn-sm">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-keyboard"></i>
+                                            </span>
+                                            <span class="text">Writing</span></a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -913,11 +927,11 @@ WHERE jenis_proses != 'selesai'");
                                     <?php foreach ($data_writing as $row) : ?>
                                         <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
-                                            if ($status_proses == "accepted") {
+                                            if ($status_proses == "not written") {
                                                 $class = "diterima";
-                                            } elseif ($status_proses == "checking") {
+                                            } elseif ($status_proses == "writing") {
                                                 $class = "mulai";
-                                            } elseif ($status_proses == "checked") {
+                                            } elseif ($status_proses == "already written") {
                                                 $class = "selesai";
                                             } ?>
                                     <tr>

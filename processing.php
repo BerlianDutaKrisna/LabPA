@@ -21,6 +21,8 @@ if (isset($_POST["btn_proses_mulai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'processing', id_analis = '$id_analis', tgl_mengerjakan = '$tgl_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: processing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 if (isset($_POST["btn_proses_selesai"])) {
@@ -30,6 +32,8 @@ if (isset($_POST["btn_proses_selesai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'processed', id_analis = '$id_analis', tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: processing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
@@ -37,6 +41,8 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'embedding', status_proses = 'unembedded', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: processing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_kembali"])) {
@@ -44,6 +50,8 @@ if (isset($_POST["btn_proses_kembali"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'grossing', status_proses = 'ungrossed', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: processing.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 ?>
@@ -582,7 +590,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                     </div>
                                         <div class="form-group col-12">
                                             <button type="submit" name="btn_proses_lanjut" class="btn btn-info btn-user btn-block">
-                                            <i class="fas fa-step-forward"></i> Lanjutkan embeding
+                                            <i class="fas fa-step-forward"></i> Lanjutkan menanam
                                             </button>
                                         </div>
                                         <div class="form-group col-12">

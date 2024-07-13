@@ -21,6 +21,8 @@ if (isset($_POST["btn_proses_mulai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'trimming', id_analis = '$id_analis', tgl_mengerjakan = '$tgl_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: trimming.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 if (isset($_POST["btn_proses_selesai"])) {
@@ -30,6 +32,8 @@ if (isset($_POST["btn_proses_selesai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'trimmed', id_analis = '$id_analis', tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: trimming.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
@@ -37,6 +41,8 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'reading', status_proses = 'unread', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: trimming.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_kembali"])) {
@@ -44,6 +50,8 @@ if (isset($_POST["btn_proses_kembali"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'embedding', status_proses = 'unembedded', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: trimming.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 ?>

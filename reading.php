@@ -21,6 +21,8 @@ if (isset($_POST["btn_proses_mulai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'reading', id_analis = '$id_analis', tgl_mengerjakan = '$tgl_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: reading.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 if (isset($_POST["btn_proses_selesai"])) {
@@ -30,6 +32,8 @@ if (isset($_POST["btn_proses_selesai"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'already read', id_analis = '$id_analis', tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: reading.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
@@ -37,13 +41,17 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'writing', status_proses = 'not written', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: reading.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     }
 if (isset($_POST["btn_proses_kembali"])) {
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'embedding', status_proses = 'unembedded', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'trimming', status_proses = 'not trimmed', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: reading.php");
+        } else {
+            echo "<script>alert('Belum ada yang di-check');</script>";
         }
     } 
 ?>
@@ -571,23 +579,23 @@ if (isset($_POST["btn_proses_kembali"])) {
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <button type="submit" name="btn_proses_mulai" class="btn btn-danger btn-user btn-block">
-                                            <i class="fas fa-play"></i> Mulai pemangkasan
+                                            <i class="fas fa-play"></i> Mulai membaca
                                             </button>
                                         </div>
                                         <div class="form-group col-6">
                                             <button type="submit" name="btn_proses_selesai" class="btn btn-success btn-user btn-block">
-                                            <i class="fas fa-pause"></i> Selesai pemangkasan
+                                            <i class="fas fa-pause"></i> Selesai membaca
                                             </button>
                                         </div>                    
                                     </div>
                                         <div class="form-group col-12">
                                             <button type="submit" name="btn_proses_lanjut" class="btn btn-info btn-user btn-block">
-                                            <i class="fas fa-step-forward"></i> Lanjutkan membaca
+                                            <i class="fas fa-step-forward"></i> Lanjutkan menulis
                                             </button>
                                         </div>
                                         <div class="form-group col-12">
                                             <button type="submit" name="btn_proses_kembali" class="btn btn-warning btn-user btn-block">
-                                            <i class="fas fa-undo-alt"></i> Kembalikan penanaman
+                                            <i class="fas fa-undo-alt"></i> Kembalikan pemangkasan
                                             </button>
                                         </div>
                                     </form>   
