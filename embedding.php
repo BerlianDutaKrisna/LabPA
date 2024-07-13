@@ -13,13 +13,29 @@ INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
 INNER JOIN analis ON proses.id_analis = analis.id_analis 
 WHERE jenis_proses = 'embedding'");
-
+$id_proses_list = [];
+$id_hpa_list = [];
+// Pastikan $_POST['id_proses'] sudah di-set dan merupakan array
+if (isset($_POST['id_proses']) && is_array($_POST['id_proses'])) {
+    // Mengisi variabel dengan nilai dari $_POST['id_proses']
+    foreach ($_POST['id_proses'] as $value) {
+        // Pastikan nilai adalah string
+        if (is_string($value)) {
+            // Pisahkan nilai id_proses dan id_hpa menggunakan list
+            list($id_proses_list[], $id_hpa_list[]) = explode(':', $value);
+        }
+    }
+}
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
         $tgl_mengerjakan = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'embedding', id_analis = '$id_analis', tgl_mengerjakan = '$tgl_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES = update("UPDATE proses SET 
+        status_proses = 'embedding', 
+        id_analis = '$id_analis', 
+        tgl_mengerjakan = '$tgl_mengerjakan' 
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         }
     } 
@@ -28,21 +44,43 @@ if (isset($_POST["btn_proses_selesai"])) {
         date_default_timezone_set('Asia/Jakarta');
         $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'embedded', id_analis = '$id_analis', tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES = update("UPDATE proses SET 
+        status_proses = 'embedded', 
+        id_analis = '$id_analis', 
+        tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' 
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
+    $ks3 = isset($_POST["ks3"]) ? $_POST["ks3"] : 0;
+    $total_kualitas_sediaan = $_POST['kualitas_sediaan'] + $ks3;
+    $UPDATE_HPA = update("UPDATE hpa SET 
+    kualitas_sediaan = '$total_kualitas_sediaan'
+    WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
+    header("Location: embedding.php");
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'trimming', status_proses = 'not trimmed', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET 
+        jenis_proses = 'trimming', 
+        status_proses = 'not trimmed', 
+        id_analis = '$id_analis', 
+        tgl_mengerjakan = NULL, 
+        tgl_selesai_mengerjakan = NULL 
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         }
     }
 if (isset($_POST["btn_proses_kembali"])) {
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'processing', status_proses = 'unprocessed', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET 
+        jenis_proses = 'processing', 
+        status_proses = 'unprocessed', 
+        id_analis = '$id_analis', 
+        tgl_mengerjakan = NULL, 
+        tgl_selesai_mengerjakan = NULL 
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         }
     } 
@@ -543,6 +581,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <th>Analis</th>
                                                 <th>Aksi</th>
                                                 <th>Status Proses</th>
+                                                <th>Kualitas Sediaan</th>
                                             </tr>
                                             <?php $i = 1; ?>                                            
                                             <?php foreach ($data_proses as $row) : ?>
@@ -561,8 +600,17 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><?= $row['nama_pasien']; ?></td>
                                                 <td><?= $row['format_tgl_hasil_hpa']; ?></td>
                                                 <td><?= $row['nama_analis']; ?></td>
-                                                <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>" class="form-control form-control-user" autocomplete="off"></td>
+                                                <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>:<?= $row['id_hpa']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
+                                                <td>
+                                                <?php if ($status_proses === 'embedded'): ?>
+                                                    <input type="hidden" name="kualitas_sediaan" value="<?= $row['kualitas_sediaan']; ?>">
+                                                    <label>Blok parafin tidak ada fragmentasi ?</label>
+                                                    <input type="checkbox" name="ks3" value="10">
+                                                <?php else: ?>
+                                                    <?= $row['kualitas_sediaan']; ?> %
+                                                <?php endif; ?>
+                                                </td>
                                                 <?php $i++; ?>
                                             </tr>  
                                                 <?php endforeach; ?>                    

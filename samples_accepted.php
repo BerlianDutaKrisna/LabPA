@@ -43,7 +43,8 @@ if (isset($_POST["btn_proses_mulai"])) {
 if (isset($_POST["btn_proses_selesai"])) {
     $ks1 = isset($_POST["ks1"]) ? $_POST["ks1"] : 0;
     $ks2 = isset($_POST["ks2"]) ? $_POST["ks2"] : 0;
-    $total_kualitas_sediaan = $ks1 + $ks2;
+    $kualitas_sediaan = $_POST['kualitas_sediaan'];
+    $total_kualitas_sediaan = $kualitas_sediaan + $ks1 + $ks2;
     $UPDATE_HPA = update("UPDATE hpa SET 
     kualitas_sediaan = '$total_kualitas_sediaan'
     WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
@@ -606,6 +607,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
                                                 <td>
                                                 <?php if ($status_proses === 'checking'): ?>
+                                                    <input type="hidden" name="kualitas_sediaan" value="<?= $row['kualitas_sediaan']; ?>">
                                                     <label>Volume cairan fiksasi sesuai ?</label>
                                                     <input type="checkbox" name="ks1" value="10">
                                                     <br>

@@ -726,7 +726,12 @@ WHERE jenis_proses != 'selesai'");
                         <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Processing <i class="fas fa-sync"></i></th>
+                                        <th colspan="6"><a href="processing.php" class="btn btn-primary btn-icon-split btn-sm">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-sync"></i>
+                                            </span>
+                                            <span class="text">Processing</span></a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -742,11 +747,11 @@ WHERE jenis_proses != 'selesai'");
                                     <?php foreach ($data_processing as $row) : ?>
                                         <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
-                                            if ($status_proses == "accepted") {
+                                            if ($status_proses == "unprocessed") {
                                                 $class = "diterima";
-                                            } elseif ($status_proses == "checking") {
+                                            } elseif ($status_proses == "processing") {
                                                 $class = "mulai";
-                                            } elseif ($status_proses == "checked") {
+                                            } elseif ($status_proses == "processed") {
                                                 $class = "selesai";
                                             } ?>
                                     <tr>
@@ -766,8 +771,12 @@ WHERE jenis_proses != 'selesai'");
                         <table class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th colspan="3">Embedding <i class="fas fa-download"></i></th>
-                                        
+                                        <th colspan="6"><a href="embedding.php" class="btn btn-primary btn-icon-split btn-sm">
+                                            <span class="icon text-white-50">
+                                            <i class="fas fa-download"></i>
+                                            </span>
+                                            <span class="text">Embedding</span></a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -783,11 +792,11 @@ WHERE jenis_proses != 'selesai'");
                                     <?php foreach ($data_embedding as $row) : ?>
                                         <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
-                                            if ($status_proses == "accepted") {
+                                            if ($status_proses == "unembedded") {
                                                 $class = "diterima";
-                                            } elseif ($status_proses == "checking") {
+                                            } elseif ($status_proses == "embedding") {
                                                 $class = "mulai";
-                                            } elseif ($status_proses == "checked") {
+                                            } elseif ($status_proses == "embedded") {
                                                 $class = "selesai";
                                             } ?>
                                     <tr>
