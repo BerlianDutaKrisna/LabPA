@@ -506,7 +506,7 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                     </div>
                                 <div class="row">
                                     <div class="form-group col-3 mw-100">
-                                        <a href="gossing.php" class="btn btn-warning btn-user btn-block">
+                                        <a href="grossing.php" class="btn btn-warning btn-user btn-block">
                                         <i class="fas fa-reply"></i> Kembali
                                         </a>
                                     </div>

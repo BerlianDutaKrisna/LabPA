@@ -79,7 +79,7 @@ function tambah_hpa($TAMBAH_DATA_HPA){
     // INSERT DATA HPA
     
     mysqli_query($conn,"INSERT INTO hpa 
-                        VALUES ('', '$kode_hpa', NULL, NULL, 'no_photo.jpg', NULL, '$tgl_hpa', '$tgl_hasil_hpa','$diagnosis_hpa', NULL, '$id_pasien', 10, '$id_pengirim', 0)");      
+                        VALUES ('', '$kode_hpa', NULL, NULL, 'no_photo.jpg', NULL, '$tgl_hpa', '$tgl_hasil_hpa','$diagnosis_hpa', NULL, $id_pasien, 10, $id_pengirim, 0)");      
     // INSERT DATA PEMERIKSAAN
     $id_hpa = $conn->insert_id;
     $id_analis = $TAMBAH_DATA_HPA["id_analis"];

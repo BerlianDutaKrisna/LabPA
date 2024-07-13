@@ -5,6 +5,7 @@ if (!isset($_SESSION["login"])) {
     header("Location: login.php");
     exit;
 }
+
 require 'functions.php';
 $data_proses = query("SELECT *, DATE_FORMAT(tgl_hasil_hpa, '%d-%m-%Y') AS format_tgl_hasil_hpa, DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS formatted_date, 
                DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS formatted_time  FROM proses 
@@ -573,6 +574,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                             </tr>
                                             <?php $i = 1; ?>                                            
                                             <?php foreach ($data_proses as $row) : ?>
+                                            <?php $makroskopis = $row["makroskopis_hpa"]; ?>
                                             <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
                                             if ($status_proses == "ungrossed") {
@@ -591,9 +593,13 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
                                                 <td>
-                                                <?php if ($status_proses === 'grossing'): ?>
+                                                <?php if ($status_proses === 'grossing' && $makroskopis === NULL): ?>
                                                     <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-orange btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Detail
+                                                    </a>
+                                                <?php elseif ($makroskopis !== NULL): ?>
+                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-success btn-user btn-block">
+                                                    <i class="fas fa-pen"></i> Edited
                                                     </a>
                                                 <?php endif; ?>
                                                 </td>

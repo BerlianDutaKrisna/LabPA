@@ -477,7 +477,7 @@ if(isset($_POST["btn_tambah_hpa"])) {
                                         <div class="form-group col-12">
                                         <label class="mb-2">Pengirim</label>
                                             <select name="id_pengirim" class="form-control form-control-user" autocomplete="off">
-                                            <option selected value="">Pilih Asal Pengirim</option>
+                                            <option selected value="37">Belum Dipilih</option>
                                                 <?php foreach ($data_pengirim as $row) : ?>
                                                 <option value="<?= $row['id_pengirim']; ?>"><?= $row['nama_pengirim']; ?> - <?= $row['ruangan']; ?></option>
                                                 <?php endforeach; ?>
