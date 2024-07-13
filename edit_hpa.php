@@ -8,13 +8,13 @@ if (!isset($_SESSION["login"])) {
 require 'functions.php';
 $id_hpa = $_GET["id_hpa"];
 $DATA_HPA = query("SELECT * FROM hpa 
-INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien 
-INNER JOIN pengirim ON hpa.id_pengirim = pengirim.id_pengirim 
-INNER JOIN dokter ON pengirim.id_dokter = dokter.id_dokter 
+INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
+INNER JOIN dokter ON hpa.id_dokter = dokter.id_dokter
+INNER JOIN pengirim ON hpa.id_pengirim = pengirim.id_pengirim
 WHERE id_hpa = $id_hpa")[0];
-$DATA_DOKTER = query("SELECT * FROM dokter WHERE spesialis_dokter = 'patologi anatomi'");
-$DATA_PENGIRIM = query("SELECT * FROM pengirim INNER JOIN dokter ON pengirim.id_dokter = dokter.id_dokter");
 
+$DATA_DOKTER = query("SELECT * FROM dokter WHERE spesialis_dokter = 'patologi anatomi'");
+$DATA_PENGIRIM = query("SELECT * FROM pengirim");
 if (isset($_POST["btn_upload_hpa"])) {
     $upload = edit_hpa($_POST);
     header("Location: edit_hpa.php?id_hpa=$id_hpa");
@@ -432,9 +432,9 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                     <div class="form-group col-3 mw-100">
                                         <label class="mb-2">Pengirim</label>
                                             <select name="id_pengirim" class="form-control form-control-user" autocomplete="off">
-                                            <option selected value="<?= $DATA_HPA['id_pengirim']; ?>"><?= $DATA_HPA['nama_dokter']; ?> - <?= $DATA_HPA['ruangan']; ?></option>
+                                            <option selected value="<?= $DATA_HPA['id_pengirim']; ?>"><?= $DATA_HPA['nama_pengirim']; ?> - <?= $DATA_HPA['ruangan']; ?></option>
                                                 <?php foreach ($DATA_PENGIRIM as $row) : ?>
-                                                <option value="<?= $row['id_pengirim']; ?>"><?= $row['nama_dokter']; ?> - <?= $row['ruangan']; ?></option>
+                                                <option value="<?= $row['id_pengirim']; ?>"><?= $row['nama_pengirim']; ?> - <?= $row['ruangan']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -484,9 +484,8 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                     </select>
                                 </div>
                                 <div class="form-group col-6 mw-100">
-                                <label class="mb-2">Makroskopis</label>
-                                <textarea readonly type="text" name="mikroskopis_hpa" class="form-control form-control-user" autocomplete="off"><?=$DATA_HPA["mikroskopis_hpa"];?>
-                                </textarea>
+                                <label class="mb-2">Mikroskopis</label>
+                                <textarea readonly type="text" name="mikroskopis_hpa" class="form-control form-control-user" autocomplete="off"><?=$DATA_HPA["mikroskopis_hpa"];?></textarea>
                                 </div>
                                 <div class="form-group col-6 mw-100">
                                 <label class="mb-2">Hasil HPA</label>
@@ -495,7 +494,7 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                 <div class="form-group col-4 mw-100">
                                 <label class="mb-2">Dokter</label>
                                 <select required name="id_dokter" class="form-control form-control-user" autocomplete="off">
-                                    <option selected value=""><?= $DATA_HPA['nama_dokter']; ?></option>
+                                    <option selected value="<?= $DATA_HPA['id_dokter']; ?>"><?= $DATA_HPA['nama_dokter']; ?></option>
                                     <?php foreach ($DATA_DOKTER as $row) : ?>
                                     <option value="<?= $row["id_dokter"];?>"><?= $row["nama_dokter"]; ?></option>
                                     <?php endforeach; ?>
@@ -507,7 +506,7 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                     </div>
                                 <div class="row">
                                     <div class="form-group col-3 mw-100">
-                                        <a href="tambah_pemeriksaan.php" class="btn btn-warning btn-user btn-block">
+                                        <a href="gossing.php" class="btn btn-warning btn-user btn-block">
                                         <i class="fas fa-reply"></i> Kembali
                                         </a>
                                     </div>

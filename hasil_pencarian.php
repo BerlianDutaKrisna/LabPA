@@ -6,7 +6,7 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 require 'functions.php';
-$data_pengirim = query("SELECT * FROM pengirim INNER JOIN dokter ON pengirim.id_dokter = dokter.id_dokter");
+$data_pengirim = query("SELECT * FROM pengirim");
 if (isset($_POST["btn_cari_norm"])) {
     
     $pasien = cari_norm($_POST["input_norm"]);   
@@ -479,7 +479,7 @@ if(isset($_POST["btn_tambah_hpa"])) {
                                             <select name="id_pengirim" class="form-control form-control-user" autocomplete="off">
                                             <option selected value="">Pilih Asal Pengirim</option>
                                                 <?php foreach ($data_pengirim as $row) : ?>
-                                                <option value="<?= $row['id_pengirim']; ?>"><?= $row['nama_dokter']; ?> - <?= $row['ruangan']; ?></option>
+                                                <option value="<?= $row['id_pengirim']; ?>"><?= $row['nama_pengirim']; ?> - <?= $row['ruangan']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
