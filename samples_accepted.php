@@ -29,12 +29,12 @@ if (isset($_POST['id_proses']) && is_array($_POST['id_proses'])) {
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_msa = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'checking', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = '$tgl_mengerjakan'
+        wkt_msa = '$wkt_msa'
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
         }else {
@@ -53,12 +53,12 @@ if (isset($_POST["btn_proses_selesai"])) {
     header("Location: samples_accepted.php");
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_ssa = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'checked', 
         id_analis = '$id_analis', 
-        tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan'
+        wkt_ssa = '$wkt_ssa'
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
         } else {
@@ -71,9 +71,7 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $UPDATE_PROSES = update("UPDATE proses SET 
         jenis_proses = 'slicing', 
         status_proses = 'not sliced', 
-        id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        id_analis = $id_analis
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
         } else {
@@ -87,8 +85,8 @@ if (isset($_POST["btn_proses_kembali"])) {
         jenis_proses = 'samples accepted', 
         status_proses = 'not checked', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        wkt_msa = NULL, 
+        wkt_ssa = NULL 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
         } else {

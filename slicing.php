@@ -29,12 +29,12 @@ if (isset($_POST['id_proses']) && is_array($_POST['id_proses'])) {
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_msl = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'slicing', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = '$tgl_mengerjakan' 
+        wkt_msl = '$wkt_msl' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
         } else {
@@ -44,12 +44,12 @@ if (isset($_POST["btn_proses_mulai"])) {
 if (isset($_POST["btn_proses_selesai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_ssl = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'sliced', 
         id_analis = '$id_analis', 
-        tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' 
+        wkt_ssl = '$wkt_ssl' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
         } else {
@@ -62,9 +62,7 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $UPDATE_PROSES= update("UPDATE proses SET 
         jenis_proses = 'grossing', 
         status_proses = 'ungrossed', 
-        id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        id_analis = '$id_analis' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
         } else {
@@ -78,8 +76,8 @@ if (isset($_POST["btn_proses_kembali"])) {
         jenis_proses = 'samples accepted', 
         status_proses = 'accepted', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        wkt_msl = NULL, 
+        wkt_msl = NULL 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: slicing.php");
         } else {

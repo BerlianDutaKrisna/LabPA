@@ -30,12 +30,12 @@ if (isset($_POST['id_proses']) && is_array($_POST['id_proses'])) {
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_mgr = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'grossing', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = '$tgl_mengerjakan' 
+        wkt_mgr = '$wkt_mgr' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: grossing.php");
         } else {
@@ -45,12 +45,12 @@ if (isset($_POST["btn_proses_mulai"])) {
 if (isset($_POST["btn_proses_selesai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_sgr = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'grossed', 
         id_analis = '$id_analis', 
-        tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' 
+        wkt_sgr = '$wkt_sgr' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: grossing.php");
         } else {
@@ -63,9 +63,7 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $UPDATE_PROSES= update("UPDATE proses SET 
         jenis_proses = 'processing', 
         status_proses = 'unprocessed', 
-        id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        id_analis = '$id_analis' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: grossing.php");
         } else {
@@ -75,7 +73,13 @@ if (isset($_POST["btn_proses_lanjut"])) {
 if (isset($_POST["btn_proses_kembali"])) {
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'slicing', status_proses = 'not sliced', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET 
+        jenis_proses = 'slicing', 
+        status_proses = 'not sliced', 
+        id_analis = '$id_analis', 
+        wkt_mgr = NULL, 
+        wkt_sgr = NULL 
+        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: grossing.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";

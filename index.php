@@ -14,9 +14,9 @@ INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
 INNER JOIN analis ON proses.id_analis = analis.id_analis 
 WHERE jenis_proses = 'done'");
 
-$data_samples_accepted = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_samples_accepted = query("SELECT *,DATE_FORMAT(wkt_msa, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_msa, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_ssa, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_ssa, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -24,9 +24,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'samples accepted'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_slicing = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_slicing = query("SELECT *,DATE_FORMAT(wkt_msl, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_msl, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_ssl, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_ssl, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -34,9 +34,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'slicing'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_grossing = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_grossing = query("SELECT *,DATE_FORMAT(wkt_mgr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_mgr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_sgr, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_sgr, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -44,9 +44,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'grossing'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_processing = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_processing = query("SELECT *,DATE_FORMAT(wkt_mpr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_mpr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_spr, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_spr, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -54,9 +54,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'processing'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_embedding = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_embedding = query("SELECT *,DATE_FORMAT(wkt_mem, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_mem, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_sem, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_sem, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -64,9 +64,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'embedding'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_trimming = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_trimming = query("SELECT *,DATE_FORMAT(wkt_mtr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_mtr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_str, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_str, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -74,9 +74,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'trimming'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_reading = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_reading = query("SELECT *,DATE_FORMAT(wkt_mrd, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_mrd, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_srd, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_srd, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -84,9 +84,9 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'reading'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_writing = query("SELECT *,DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(tgl_selesai_mengerjakan, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(tgl_selesai_mengerjakan, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_writing = query("SELECT *,DATE_FORMAT(wkt_mwr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
+               DATE_FORMAT(wkt_mwr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_swr, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
+               DATE_FORMAT(wkt_swr, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien

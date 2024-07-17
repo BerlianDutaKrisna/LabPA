@@ -399,8 +399,17 @@ if (isset($_POST["btn_simpan_hpa"])) {
                         <h1 class="h4 text-gray-900 mb-4">Detail HPA</h1>
                     </div>  
                         <div class="card shadow mb-4">
-                            <div class="card-header py-4">
-                                <h6 class="m-0 font-weight-bold text-primary">Edit data HPA</h6>
+                            <div class="card-header py-2">
+                                <div class="row" >
+                                    <div class="col-11">
+                                        <h6 class="m-2 font-weight-bold text-primary">Edit data HPA</h6>
+                                    </div>
+                                    <div class="col-1">
+                                        <a href="cetak.php" target="_blank" class="btn btn-primary btn-user btn-block">
+                                        <i class="fas fa-print"></i> cetak
+                                        </a>
+                                    </div>
+                                </div>   
                             </div>
                             <div class="card-body">
                                 <form action="" method="post" enctype="multipart/form-data">

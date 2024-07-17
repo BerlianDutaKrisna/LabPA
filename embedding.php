@@ -29,12 +29,12 @@ if (isset($_POST['id_proses']) && is_array($_POST['id_proses'])) {
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_mem = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'embedding', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = '$tgl_mengerjakan' 
+        wkt_mem = '$wkt_mem' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         } else {
@@ -44,12 +44,12 @@ if (isset($_POST["btn_proses_mulai"])) {
 if (isset($_POST["btn_proses_selesai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_sem = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'embedded', 
         id_analis = '$id_analis', 
-        tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' 
+        wkt_sem = '$wkt_sem' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         } else {
@@ -68,9 +68,7 @@ if (isset($_POST["btn_proses_lanjut"])) {
         $UPDATE_PROSES= update("UPDATE proses SET 
         jenis_proses = 'trimming', 
         status_proses = 'not trimmed', 
-        id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        id_analis = '$id_analis' 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         } else {
@@ -84,8 +82,8 @@ if (isset($_POST["btn_proses_kembali"])) {
         jenis_proses = 'processing', 
         status_proses = 'unprocessed', 
         id_analis = '$id_analis', 
-        tgl_mengerjakan = NULL, 
-        tgl_selesai_mengerjakan = NULL 
+        wkt_mem = NULL, 
+        wkt_sem = NULL 
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: embedding.php");
         } else {

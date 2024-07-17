@@ -17,9 +17,13 @@ WHERE jenis_proses = 'writing'");
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_mwr = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'writing', id_analis = '$id_analis', tgl_mengerjakan = '$tgl_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES = update("UPDATE proses SET 
+        status_proses = 'writing', 
+        id_analis = '$id_analis', 
+        wkt_mwr = '$wkt_mwr' 
+        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -28,9 +32,13 @@ if (isset($_POST["btn_proses_mulai"])) {
 if (isset($_POST["btn_proses_selesai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
-        $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
+        $wkt_swr = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES = update("UPDATE proses SET status_proses = 'already written', id_analis = '$id_analis', tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan' WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES = update("UPDATE proses SET 
+        status_proses = 'already written', 
+        id_analis = '$id_analis', 
+        wkt_swr = '$wkt_swr' 
+        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -38,8 +46,15 @@ if (isset($_POST["btn_proses_selesai"])) {
     }
 if (isset($_POST["btn_proses_lanjut"])) {
     if (!empty($_POST['id_proses'])) {
+        date_default_timezone_set('Asia/Jakarta');
+        $tgl_selesai_mengerjakan = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'done', status_proses = 'done', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET 
+        jenis_proses = 'done', 
+        status_proses = 'done', 
+        id_analis = '$id_analis', 
+        tgl_selesai_mengerjakan = '$tgl_selesai_mengerjakan'
+        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -48,7 +63,13 @@ if (isset($_POST["btn_proses_lanjut"])) {
 if (isset($_POST["btn_proses_kembali"])) {
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
-        $UPDATE_PROSES= update("UPDATE proses SET jenis_proses = 'reading', status_proses = 'unread', id_analis = '$id_analis', tgl_mengerjakan = NULL, tgl_selesai_mengerjakan = NULL WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        $UPDATE_PROSES= update("UPDATE proses SET 
+        jenis_proses = 'reading', 
+        status_proses = 'unread', 
+        id_analis = '$id_analis', 
+        wkt_mwr = NULL, 
+        wkt_swr = NULL 
+        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
         header("Location: writing.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";

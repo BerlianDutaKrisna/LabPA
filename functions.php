@@ -86,7 +86,7 @@ function tambah_hpa($TAMBAH_DATA_HPA){
     $tgl_mengerjakan = date('Y-m-d H:i:s');
     
     mysqli_query($conn,"INSERT INTO proses
-                        VALUES ('','$id_hpa',NULL,NULL,NULL,'samples accepted','not checked','$tgl_mengerjakan',NULL,'$id_analis')");
+                        VALUES ('','$id_hpa',NULL,NULL,NULL,'samples accepted','not checked','$tgl_mengerjakan',NULL,'$id_analis',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL)");
             if (mysqli_affected_rows($conn) > 0 ){
                 echo
                 "<script>
