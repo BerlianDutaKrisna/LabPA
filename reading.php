@@ -569,9 +569,11 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <th>Analis</th>
                                                 <th>Aksi</th>
                                                 <th>Status Proses</th>
+                                                <th>Details</th>
                                             </tr>
                                             <?php $i = 1; ?>                                            
                                             <?php foreach ($data_proses as $row) : ?>
+                                            <?php $mikroskopis = $row["mikroskopis_hpa"]; ?>
                                             <?php $status_proses = $row["status_proses"];
                                             $class = "default"; // Default class
                                             if ($status_proses == "unread") {
@@ -589,6 +591,17 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><?= $row['nama_analis']; ?></td>
                                                 <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
+                                                <td>
+                                                <?php if ($status_proses === 'reading' && (is_null($mikroskopis) || $mikroskopis === "")): ?>
+                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-orange btn-user btn-block">
+                                                    <i class="fas fa-pen"></i> Detail
+                                                    </a>
+                                                <?php elseif ($mikroskopis !== NULL && $mikroskopis !== ""): ?>
+                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-success btn-user btn-block">
+                                                    <i class="fas fa-pen"></i> Edited
+                                                    </a>
+                                                <?php endif; ?>
+                                                </td>
                                                 <?php $i++; ?>
                                             </tr>  
                                                 <?php endforeach; ?>                    

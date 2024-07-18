@@ -46,6 +46,11 @@ if (isset($_POST["btn_proses_selesai"])) {
         date_default_timezone_set('Asia/Jakarta');
         $wkt_sem = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
+        $ks3 = isset($_POST["ks3"]) ? $_POST["ks3"] : 0;
+        $total_kualitas_sediaan = $_POST['kualitas_sediaan'] + $ks3;
+        $UPDATE_HPA = update("UPDATE hpa SET 
+        kualitas_sediaan = '$total_kualitas_sediaan'
+        WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'embedded', 
         id_analis = '$id_analis', 
@@ -57,12 +62,6 @@ if (isset($_POST["btn_proses_selesai"])) {
         }
     }
 if (isset($_POST["btn_proses_lanjut"])) {
-    $ks3 = isset($_POST["ks3"]) ? $_POST["ks3"] : 0;
-    $total_kualitas_sediaan = $_POST['kualitas_sediaan'] + $ks3;
-    $UPDATE_HPA = update("UPDATE hpa SET 
-    kualitas_sediaan = '$total_kualitas_sediaan'
-    WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
-    header("Location: embedding.php");
     if (!empty($_POST['id_proses'])) {
         $id_analis = $_POST['id_analis'];
         $UPDATE_PROSES= update("UPDATE proses SET 
@@ -609,10 +608,13 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>:<?= $row['id_hpa']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
                                                 <td>
-                                                <?php if ($status_proses === 'embedded'): ?>
+                                                <?php if ($status_proses === 'embedding'): ?>
                                                     <input type="hidden" name="kualitas_sediaan" value="<?= $row['kualitas_sediaan']; ?>">
                                                     <label>Blok parafin tidak ada fragmentasi ?</label>
                                                     <input type="checkbox" name="ks3" value="10">
+                                                    <br>
+                                                    <label>Jumlah blok ?</label>
+                                                    <input class="strong" type="checkbox"> <?= $row['jumlah_kaset']; ?>
                                                 <?php else: ?>
                                                     <?= $row['kualitas_sediaan']; ?> %
                                                 <?php endif; ?>

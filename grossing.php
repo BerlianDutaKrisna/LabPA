@@ -582,7 +582,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <th>Analis</th>
                                                 <th>Aksi</th>
                                                 <th>Status Proses</th>
-                                                <th>Detail</th>
+                                                <th>Details</th>
                                             </tr>
                                             <?php $i = 1; ?>                                            
                                             <?php foreach ($data_proses as $row) : ?>
@@ -605,11 +605,11 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
                                                 <td>
-                                                <?php if ($status_proses === 'grossing' && $makroskopis === NULL): ?>
+                                                <?php if ($status_proses === 'grossing' && (is_null($makroskopis) || $makroskopis === "")): ?>
                                                     <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-orange btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Detail
                                                     </a>
-                                                <?php elseif ($makroskopis !== NULL): ?>
+                                                <?php elseif ($makroskopis !== NULL && $makroskopis !== ""): ?>
                                                     <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-success btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Edited
                                                     </a>

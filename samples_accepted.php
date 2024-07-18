@@ -37,24 +37,23 @@ if (isset($_POST["btn_proses_mulai"])) {
         wkt_msa = '$wkt_msa'
         WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: samples_accepted.php");
-        }else {
+        } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
         }
 
     } 
 if (isset($_POST["btn_proses_selesai"])) {
-    $ks1 = isset($_POST["ks1"]) ? $_POST["ks1"] : 0;
-    $ks2 = isset($_POST["ks2"]) ? $_POST["ks2"] : 0;
-    $kualitas_sediaan = $_POST['kualitas_sediaan'];
-    $total_kualitas_sediaan = $kualitas_sediaan + $ks1 + $ks2;
-    $UPDATE_HPA = update("UPDATE hpa SET 
-    kualitas_sediaan = '$total_kualitas_sediaan'
-    WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
-    header("Location: samples_accepted.php");
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
         $wkt_ssa = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
+        $ks1 = isset($_POST["ks1"]) ? $_POST["ks1"] : 0;
+        $ks2 = isset($_POST["ks2"]) ? $_POST["ks2"] : 0;
+        $kualitas_sediaan = $_POST['kualitas_sediaan'];
+        $total_kualitas_sediaan = $kualitas_sediaan + $ks1 + $ks2;
+        $UPDATE_HPA = update("UPDATE hpa SET 
+        kualitas_sediaan = '$total_kualitas_sediaan'
+        WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'checked', 
         id_analis = '$id_analis', 
