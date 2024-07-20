@@ -640,11 +640,11 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 </td>
                                                 <td>
                                                 <?php if ($status_proses === 'reading' && (is_null($mikroskopis) || $mikroskopis === "")): ?>
-                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-orange btn-user btn-block">
+                                                    <a href="edit_hpa.php?id_proses=<?= $row['id_proses']; ?>&id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-orange btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Detail
                                                     </a>
                                                 <?php elseif ($mikroskopis !== NULL && $mikroskopis !== ""): ?>
-                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-success btn-user btn-block">
+                                                    <a href="edit_hpa.php?id_proses=<?= $row['id_proses']; ?>&id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-success btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Edited
                                                     </a>
                                                 <?php endif; ?>

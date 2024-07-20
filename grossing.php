@@ -606,11 +606,11 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
                                                 <td>
                                                 <?php if ($status_proses === 'grossing' && (is_null($makroskopis) || $makroskopis === "")): ?>
-                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-orange btn-user btn-block">
+                                                    <a href="edit_hpa.php?id_proses=<?= $row['id_proses']; ?>&id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-orange btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Detail
                                                     </a>
                                                 <?php elseif ($makroskopis !== NULL && $makroskopis !== ""): ?>
-                                                    <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-success btn-user btn-block">
+                                                    <a href="edit_hpa.php?id_proses=<?= $row['id_proses']; ?>&id_hpa=<?= $row['id_hpa']; ?>" class="btn btn-success btn-user btn-block">
                                                     <i class="fas fa-pen"></i> Edited
                                                     </a>
                                                 <?php endif; ?>

@@ -6,17 +6,23 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 require 'functions.php';
-$data_proses = query("SELECT *, DATE_FORMAT(tgl_hasil_hpa, '%d-%m-%Y') AS format_tgl_hasil_hpa, DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS formatted_date, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS formatted_time  FROM proses 
+function formatTanggal($date, $format) {
+    $english = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 
+                     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 
+                     'September', 'October', 'November', 'December');
+    $indonesian = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 
+                        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 
+                        'September', 'Oktober', 'November', 'Desember');
+    return str_replace($english, $indonesian, date($format, strtotime($date)));
+}
+$data_proses = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
 INNER JOIN analis ON proses.id_analis = analis.id_analis 
 WHERE jenis_proses = 'done'");
 
-$data_samples_accepted = query("SELECT *,DATE_FORMAT(wkt_msa, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_msa, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_ssa, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_ssa, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_samples_accepted = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -24,9 +30,7 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'samples accepted'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_slicing = query("SELECT *,DATE_FORMAT(wkt_msl, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_msl, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_ssl, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_ssl, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_slicing = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -34,9 +38,7 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'slicing'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_grossing = query("SELECT *,DATE_FORMAT(wkt_mgr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_mgr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_sgr, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_sgr, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_grossing = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -44,9 +46,7 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'grossing'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_processing = query("SELECT *,DATE_FORMAT(wkt_mpr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_mpr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_spr, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_spr, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_processing = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -64,9 +64,7 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'embedding'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_trimming = query("SELECT *,DATE_FORMAT(wkt_mtr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_mtr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_str, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_str, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_trimming = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -74,9 +72,7 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'trimming'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_reading = query("SELECT *,DATE_FORMAT(wkt_mrd, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_mrd, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_srd, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_srd, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_reading = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -84,9 +80,7 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'reading'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
-$data_writing = query("SELECT *,DATE_FORMAT(wkt_mwr, '%d-%m-%Y') AS format_tgl_mengerjakan, 
-               DATE_FORMAT(wkt_mwr, '%H:%i') AS format_waktu_mengerjakan, DATE_FORMAT(wkt_swr, '%d-%m-%Y') AS format_tgl_selesai_mengerjakan, 
-               DATE_FORMAT(wkt_swr, '%H:%i') AS format_waktu_selesai_mengerjakan  FROM proses 
+$data_writing = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -94,6 +88,30 @@ INNER JOIN analis ON proses.id_analis = analis.id_analis
 WHERE jenis_proses = 'writing'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
+$jumlah_samples_accepted = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'samples accepted'");
+$jumlah_slicing = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'slicing'");
+$jumlah_grossing = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'grossing'");
+$jumlah_processing = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'processing'");
+$jumlah_embedding = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'embedding'");
+$jumlah_trimming = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'trimming'");
+$jumlah_reading = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'reading'");
+$jumlah_writing = query("SELECT COUNT(*) AS total_rows
+FROM proses
+WHERE jenis_proses = 'writing'");
 $jumlah_proses_hpa = query("SELECT COUNT(*) AS total_rows
 FROM proses
 WHERE jenis_proses != 'selesai'");
@@ -145,138 +163,8 @@ WHERE jenis_proses != 'selesai'");
 </head>
 
 <body id="page-top">
-
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
-                <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-binoculars"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Traker Histopatologi</div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.php">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-plus-square"></i>
-                    <span>Pemeriksaan</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Jenis Pemeriksaan:</h6>
-                        <a class="collapse-item" href="tambah_pemeriksaan.php">Histopatologi</a>
-                        <a class="collapse-item" href="cards.html">Sitologi</a>
-                        <a class="collapse-item" href="buttons.html">FNAB</a>
-                        <a class="collapse-item" href="cards.html">Imunohistokimia</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Settings</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Settings:</h6>
-                        <a class="collapse-item" href="#">Pasien</a>
-                        <a class="collapse-item" href="#">Analis</a>
-                        <a class="collapse-item" href="#">Dokter</a>
-                        <a class="collapse-item" href="#">Pengirim</a>
-                        <a class="collapse-item" href="register.php">User</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider"> -->
-
-            <!-- Heading -->
-            <!-- <div class="sidebar-heading">
-                Addons
-            </div> -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <!-- <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li> -->
-
-            <!-- Nav Item - Charts -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li> -->
-
-            <!-- Nav Item - Tables -->
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li> -->
-
-            <!-- Divider -->
-            <!-- <hr class="sidebar-divider d-none d-md-block"> -->
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <!-- <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div> -->
-
-            <!-- Sidebar Message -->
-            <!-- <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div> -->
-
-        </ul>
-        <!-- End of Sidebar -->
-
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -292,7 +180,10 @@ WHERE jenis_proses != 'selesai'");
                     </button>
 
                     <!-- Topbar Search -->
-                    <h1 class="h6 mb-0 text-gray-800">Traker of Histologi Process</h1>
+                    <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-binoculars"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Traker Histopatologi</div>
                     <!-- <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
@@ -503,80 +394,167 @@ WHERE jenis_proses != 'selesai'");
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Histopatologi RESUME -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                HISTOPATOLOGI ( HPA )</div>
-                                            <div class="h2 mb-0 font-weight-bold text-gray-800"><?= $jumlah_proses_hpa[0]['total_rows']?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-drumstick-bite fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- Histopatologi RESUME -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-danger shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        HISTOPATOLOGI ( HPA )</div>
+                    <div class="h2 mb-0 font-weight-bold text-gray-800"><?= $jumlah_proses_hpa[0]['total_rows']?></div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-drumstick-bite fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <!-- SITOLOGI RESUME -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                SITOLOGI ( SRS )</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-prescription-bottle fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- SITOLOGI RESUME -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        SITOLOGI ( SRS )</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-prescription-bottle fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        <!-- FINE NEEDLE ASPIRATION BIOPSY RESUME -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Fine Needle Aspiration Biopsy ( FNAB )
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-syringe fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- IMUNOHISTOKIMIA RESUME -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Imunohistokimia</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-vials fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!-- FINE NEEDLE ASPIRATION BIOPSY RESUME -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Fine Needle Aspiration Biopsy ( FNAB )
                     </div>
+                    <div class="row no-gutters align-items-center">
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-syringe fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- IMUNOHISTOKIMIA RESUME -->
+<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                        Imunohistokimia</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-vials fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="card shadow mb-4">
+    <div class="card-header py-4">
+    <h6 class="m-0 font-weight-bold text-primary">Tambah Pemeriksaan</h6>
+    </div>
+    <div class="card-body">                        
+    <label class="mb-2">Nomer Rekamedis</label>
+        <form action="hasil_pencarian.php" method="post" >
+            <div class="input-group col-5 mb-5">
+                <input type="text" name="input_norm" class="form-control bg-light border-0 small" autocomplete="off" placeholder="Pecarian nomer rekamedis pasien">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" name="btn_cari_norm" type="submit">
+                    <i class="fas fa-search fa-sm"></i> Cari </button>
+                    <a href="tambah_pasien.php" class="btn btn-success">
+                    <i class="fas fa-plus"></i></i> Tambah Data Pasien </a>
+                </div>
+            </div>
+        </form>
+    </div>                 
+    </div>      
+    <div class="card-header py-3">
+    <div class="row">
+        <div class="m-3"> 
+            <a href="samples_accepted.php" class="btn btn-primary btn-icon-split btn-lg">
+                <span class="icon text-red">
+                <?= $jumlah_samples_accepted[0]['total_rows']?>
+                </span>
+                <span class="text">Samples Accepted</span>
+            </a>  
+        </div>
+        <div class="m-3">
+            <a href="slicing.php" class="btn btn-primary btn-icon-split btn-lg">
+                <span class="icon text-white">
+                <?= $jumlah_slicing[0]['total_rows']?>
+                </span>
+                <span class="text">Slicing</span>
+            </a>
+        </div>
+        <div class="m-3">
+            <a href="grossing.php" class="btn btn-primary btn-icon-split btn-lg">
+                <span class="icon text-white">
+                <?= $jumlah_grossing[0]['total_rows']?>
+                </span>
+                <span class="text">Grossing</span>
+            </a>
+        </div>                                    
+        <div class="m-3">
+            <a href="processing.php" class="btn btn-primary btn-icon-split btn-lg">
+                <span class="icon text-white">
+                <?= $jumlah_processing[0]['total_rows']?>
+                </span>
+                <span class="text">Processing</span>
+            </a>                                    
+        </div>
+        <div class="m-3">
+            <a href="embedding.php" class="btn btn-primary btn-icon-split btn-lg">
+                <span class="icon text-white">
+                <?= $jumlah_embedding[0]['total_rows']?>
+                </span>
+                <span class="text">Embedding</span>
+            </a>                                    
+        </div>
+        <div class="m-3">
+            <a href="trimming.php" class="btn btn-primary btn-icon-split btn-lg">
+                <span class="icon text-white">
+                <?= $jumlah_trimming[0]['total_rows']?>
+                </span>
+                <span class="text">Trimming</span>
+            </a>                                    
+        </div>
+        <div class="m-3">
+            <a href="reading.php" class="btn btn-primary btn-icon-split btn-lg">
+            <span class="icon text-white">
+            <?= $jumlah_reading[0]['total_rows']?>
+            </span>
+            <span class="text">Reading</span>
+            </a>                                    
+        </div>
+        <div class="m-3">
+            <a href="writing.php" class="btn btn-primary btn-icon-split btn-lg">
+            <span class="icon text-white">
+            <?= $jumlah_writing[0]['total_rows']?>
+            </span>
+            <span class="text">Writing</span>
+            </a>                                    
+        </div>
+    </div>
+</div>
 <div id="table_live_process">
     <!-- Table Traker of Histologi Process -->
     <div class="container-fluid">
@@ -624,8 +602,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_msa"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_msa"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_ssa"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_ssa"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -669,8 +647,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_msl"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_msl"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_ssl"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_ssl"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -714,8 +692,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_mgr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mgr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_sgr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_sgr"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -759,8 +737,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_mpr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mpr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_spr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_spr"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -804,8 +782,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_mem"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_sem"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_sem"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -849,8 +827,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_mtr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mtr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_str"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_str"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -894,8 +872,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_mrd"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_srd"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_srd"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -939,8 +917,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td>tanggal:  <?=$row['format_tgl_mengerjakan']; ?> pukul:  <?= $row['format_waktu_mengerjakan'] ?></td>
-                                        <td>tanggal:  <?=$row['format_tgl_selesai_mengerjakan']; ?> pukul:  <?= $row['format_waktu_selesai_mengerjakan'] ?></td>
+                                        <td><?=formatTanggal($row["wkt_mwr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mwr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_swr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_swr"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -955,144 +933,137 @@ WHERE jenis_proses != 'selesai'");
     <!-- /.container-fluid -->
 </div>
 <!-- End of Main Content 1 -->
-                
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Jumlah keseluruhan Sample HPA</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Jumlah keseluruhan jenis pemeriksaan</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> HPA
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> FNAB
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Sitologi
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div id="content-wrapper" class="d-flex flex-column">
-
-<!-- Main Content -->
-<div id="content">
-    <!-- Begin Page Content -->
-    <div class="container-fluid">
-        <!-- DataTales Example -->
+<!-- Content Row -->
+<div class="row">
+<!-- Area Chart -->
+    <div class="col-xl-8 col-lg-7">
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Data Keseluruhan Pemeriksaan</h6>
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Jumlah keseluruhan Sample HPA</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
             </div>
+            <!-- Card Body -->
             <div class="card-body">
-                <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Kode HPA</th>
-                                            <th>Nama Pasien</th>
-                                            <th>No RM Pasien</th>
-                                            <th>Diagnosa</th>
-                                            <th>Hasil HPA</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tfoot>
-                                    <?php foreach($data_proses as $row) : ?>
-                                    <tbody>
-                                        <tr>
-                                            <td><?= $row["kode_hpa"]; ?></td>
-                                            <td><?= $row["nama_pasien"]; ?></td>
-                                            <td><?= $row["norm_pasien"]; ?></td>
-                                            <td><?= $row["diagnosis_hpa"]; ?></td>
-                                            <td><?= $row["hasil_hpa"]; ?></td>
-                                            <td>
-                                            <a href="edit_hpa.php?id_proses=<?= $row['id_proses']; ?>&id_hpa=<?= $row['id_hpa']; ?>&from=index" class="btn btn-warning" >Edit</a>
-                                            <a href="delete.php?id=<?= $row["id_proses"]; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin menghapusnya')" >Delete</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <?php endforeach; ?>
-                                </table>
+                <div class="chart-area">
+                    <canvas id="myAreaChart"></canvas>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Jumlah keseluruhan jenis pemeriksaan</h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myPieChart"></canvas>
+                </div>
+                <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-primary"></i> HPA
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-success"></i> FNAB
+                    </span>
+                    <span class="mr-2">
+                        <i class="fas fa-circle text-info"></i> Sitologi
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content Row -->
+<div id="content-wrapper" class="d-flex flex-column">
+<!-- Main Content -->
+<div id="content">
+<!-- Begin Page Content -->
+<div class="container-fluid">
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Data Keseluruhan Pemeriksaan</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Kode HPA</th>
+                    <th>Nama Pasien</th>
+                    <th>No RM Pasien</th>
+                    <th>Diagnosa</th>
+                    <th>Hasil HPA</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </tfoot>
+            <?php foreach($data_proses as $row) : ?>
+            <tbody>
+                <tr>
+                    <td><?= $row["kode_hpa"]; ?></td>
+                    <td><?= $row["nama_pasien"]; ?></td>
+                    <td><?= $row["norm_pasien"]; ?></td>
+                    <td><?= $row["diagnosis_hpa"]; ?></td>
+                    <td><?= $row["hasil_hpa"]; ?></td>
+                    <td>
+                    <a href="edit_hpa.php?id_proses=<?= $row['id_proses']; ?>&id_hpa=<?= $row['id_hpa']; ?>&from=index" class="btn btn-warning" >Edit</a>
+                    <a href="delete.php?id=<?= $row["id_proses"]; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin menghapusnya')" >Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+            <?php endforeach; ?>
+        </table>
+        </div>
+    </div>
+</div>
 
     </div>
     <!-- /.container-fluid -->
-
 </div>
 <!-- End of Main Content -->
 
@@ -1105,17 +1076,15 @@ WHERE jenis_proses != 'selesai'");
     </div>
 </footer>
 <!-- End of Footer -->
-
 </div>
 <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
