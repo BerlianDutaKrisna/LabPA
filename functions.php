@@ -65,6 +65,8 @@ function tambah_pasien($TAMBAH_DATA_PASIEN){
 function tambah_hpa($TAMBAH_DATA_HPA){
     global $conn;
     $kode_hpa = $TAMBAH_DATA_HPA["kode_hpa"];
+    $lokasi_hpa = $TAMBAH_DATA_HPA["lokasi_hpa"];
+    $jenis_pemeriksaan_hpa = $TAMBAH_DATA_HPA["jenis_pemeriksaan_hpa"];
     $diagnosis_hpa = $TAMBAH_DATA_HPA["diagnosis_hpa"];
     // $makroskopis_hpa = "";
     // $mikroskopis_hpa = "";
@@ -79,7 +81,8 @@ function tambah_hpa($TAMBAH_DATA_HPA){
     // INSERT DATA HPA
     
     mysqli_query($conn,"INSERT INTO hpa 
-                        VALUES ('', '$kode_hpa', NULL, NULL, 'no_photo.jpg', NULL, '$tgl_hpa', '$tgl_hasil_hpa','$diagnosis_hpa', NULL, $id_pasien, 10, $id_pengirim, 0)");      
+                        VALUES 
+    ('', '$kode_hpa', NULL, NULL, 'no_photo.jpg', NULL, '$tgl_hpa', '$tgl_hasil_hpa','$lokasi_hpa', '$jenis_pemeriksaan_hpa', '$diagnosis_hpa', NULL, $id_pasien, 1, $id_pengirim, 0)");      
     // INSERT DATA PEMERIKSAAN
     $id_hpa = $conn->insert_id;
     $id_analis = $TAMBAH_DATA_HPA["id_analis"];

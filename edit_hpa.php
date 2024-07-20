@@ -8,6 +8,7 @@ if (!isset($_SESSION["login"])) {
 require 'functions.php';
 $id_hpa = $_GET["id_hpa"];
 $isFromReading = isset($_GET['from']) && $_GET['from'] === 'reading';
+$isFromIndex = isset($_GET['from']) && $_GET['from'] === 'index';
 $DATA_HPA = query("SELECT * FROM hpa 
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
 INNER JOIN dokter ON hpa.id_dokter = dokter.id_dokter
@@ -500,11 +501,11 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                 </div>
                                 <div class="form-group col-6 mw-100">
                                 <label class="mb-2">Mikroskopis</label>
-                                <textarea <?php echo $isFromReading ? '' : 'readonly'; ?> type="text" name="mikroskopis_hpa" class="form-control form-control-user" autocomplete="off"><?=$DATA_HPA["mikroskopis_hpa"];?></textarea>
+                                <textarea <?php echo $isFromReading || $isFromIndex ? '' : 'readonly'; ?> type="text" name="mikroskopis_hpa" class="form-control form-control-user" autocomplete="off"><?=$DATA_HPA["mikroskopis_hpa"];?></textarea>
                                 </div>
                                 <div class="form-group col-6 mw-100">
                                 <label class="mb-2">Hasil HPA</label>
-                                    <input <?php echo $isFromReading ? '' : 'readonly'; ?> type="text" name="hasil_hpa" value="<?=$DATA_HPA["hasil_hpa"];?>" class="form-control form-control-user" autocomplete="off">
+                                    <input <?php echo $isFromReading || $isFromIndex ? '' : 'readonly'; ?> type="text" name="hasil_hpa" value="<?=$DATA_HPA["hasil_hpa"];?>" class="form-control form-control-user" autocomplete="off">
                                 </div>
                                 <div class="form-group col-4 mw-100">
                                 <label class="mb-2">Dokter</label>
@@ -521,7 +522,7 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                     </div>
                                 <div class="row">
                                     <div class="form-group col-3 mw-100">
-                                        <a href="<?php echo $isFromReading ? 'reading.php' : 'grossing.php'; ?>" class="btn btn-warning btn-user btn-block">
+                                        <a href="<?php echo $isFromReading ? 'reading.php' : ($isFromIndex ? 'index.php' : 'grossing.php');?>" class="btn btn-warning btn-user btn-block">
                                         <i class="fas fa-reply"></i> Kembali
                                         </a>
                                     </div>

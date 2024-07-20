@@ -12,8 +12,21 @@ proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
 INNER JOIN analis ON proses.id_analis = analis.id_analis 
+INNER JOIN dokter ON hpa.id_dokter = dokter.id_dokter
 WHERE jenis_proses = 'reading'");
-
+$id_proses_list = [];
+$id_hpa_list = [];
+// Pastikan $_POST['id_proses'] sudah di-set dan merupakan array
+if (isset($_POST['id_proses']) && is_array($_POST['id_proses'])) {
+    // Mengisi variabel dengan nilai dari $_POST['id_proses']
+    foreach ($_POST['id_proses'] as $value) {
+        // Pastikan nilai adalah string
+        if (is_string($value)) {
+            // Pisahkan nilai id_proses dan id_hpa menggunakan list
+            list($id_proses_list[], $id_hpa_list[]) = explode(':', $value);
+        }
+    }
+}
 if (isset($_POST["btn_proses_mulai"])) {
     if (!empty($_POST['id_proses'])) {
         date_default_timezone_set('Asia/Jakarta');
@@ -23,7 +36,7 @@ if (isset($_POST["btn_proses_mulai"])) {
         status_proses = 'reading', 
         id_analis = '$id_analis', 
         wkt_mrd = '$wkt_mrd' 
-        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: reading.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -34,11 +47,20 @@ if (isset($_POST["btn_proses_selesai"])) {
         date_default_timezone_set('Asia/Jakarta');
         $wkt_srd = date('Y-m-d H:i:s');
         $id_analis = $_POST['id_analis'];
+        $ks4 = isset($_POST["ks4"]) ? $_POST["ks4"] : 0;
+        $ks5 = isset($_POST["ks5"]) ? $_POST["ks5"] : 0;
+        $ks6 = isset($_POST["ks6"]) ? $_POST["ks6"] : 0;
+        $ks7 = isset($_POST["ks7"]) ? $_POST["ks7"] : 0;
+        $ks8 = isset($_POST["ks8"]) ? $_POST["ks8"] : 0;
+        $total_kualitas_sediaan = $_POST['kualitas_sediaan'] + $ks4 + $ks5 + $ks6 + $ks7 + $ks8;
+        $UPDATE_HPA = update("UPDATE hpa SET 
+        kualitas_sediaan = '$total_kualitas_sediaan'
+        WHERE id_hpa IN (" . implode(',', $id_hpa_list) . ")");
         $UPDATE_PROSES = update("UPDATE proses SET 
         status_proses = 'already read', 
         id_analis = '$id_analis', 
         wkt_srd = '$wkt_srd' 
-        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: reading.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -51,7 +73,7 @@ if (isset($_POST["btn_proses_lanjut"])) {
         jenis_proses = 'writing', 
         status_proses = 'not written', 
         id_analis = '$id_analis' 
-        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: reading.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -66,7 +88,7 @@ if (isset($_POST["btn_proses_kembali"])) {
         id_analis = '$id_analis', 
         wkt_mrd = NULL, 
         wkt_srd = NULL 
-        WHERE id_proses IN (" . implode(',', $_POST['id_proses']) . ")");
+        WHERE id_proses IN (" . implode(',', $id_proses_list) . ")");
         header("Location: reading.php");
         } else {
             echo "<script>alert('Belum ada yang di-check');</script>";
@@ -566,9 +588,10 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <th>Kode HPA</th>
                                                 <th>Nama Pasien</th>
                                                 <th>Deadline Hasil</th>
-                                                <th>Analis</th>
+                                                <th>Dokter</th>
                                                 <th>Aksi</th>
                                                 <th>Status Proses</th>
+                                                <th>Kualitas Sediaan</th>
                                                 <th>Details</th>
                                             </tr>
                                             <?php $i = 1; ?>                                            
@@ -588,9 +611,33 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><?= $row['kode_hpa']; ?></td>
                                                 <td><?= $row['nama_pasien']; ?></td>
                                                 <td><?= $row['format_tgl_hasil_hpa']; ?></td>
-                                                <td><?= $row['nama_analis']; ?></td>
-                                                <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>" class="form-control form-control-user" autocomplete="off"></td>
+                                                <td><?= $row['nama_dokter']; ?></td>
+                                                <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>:<?= $row['id_hpa']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
+                                                <td>
+                                                <?php if ($status_proses === 'reading'): ?>
+                                                    <input type="hidden" name="kualitas_sediaan" value="<?= $row['kualitas_sediaan']; ?>">
+                                                    <label>Sediaan tanpa lipatan ?</label>
+                                                    <input type="checkbox" name="ks4" value="10">
+                                                    <br>
+                                                    <label>Sediaan tanpa goresan mata pisau ?</label>
+                                                    <input type="checkbox" name="ks5" value="10">
+                                                    <br>
+                                                    <label>Kontras warna Sediaan cukup jelas ?</label>
+                                                    <input type="checkbox" name="ks6" value="10">
+                                                    <br>
+                                                    <label>Sediaan tanpa gelebung udara ?</label>
+                                                    <input type="checkbox" name="ks7" value="10">
+                                                    <br>
+                                                    <label>Sediaan tanpa bercak sidik jari ?</label>
+                                                    <input type="checkbox" name="ks8" value="10">
+                                                    <br>
+                                                    <label>Jumlah Kaset ?</label>
+                                                    <input class="strong" type="checkbox"> <?= $row['jumlah_kaset']; ?>
+                                                <?php else: ?>
+                                                    <?= $row['kualitas_sediaan']; ?> %
+                                                <?php endif; ?>
+                                                </td>
                                                 <td>
                                                 <?php if ($status_proses === 'reading' && (is_null($mikroskopis) || $mikroskopis === "")): ?>
                                                     <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>&from=reading" class="btn btn-orange btn-user btn-block">

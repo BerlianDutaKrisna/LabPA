@@ -1079,7 +1079,7 @@ WHERE jenis_proses != 'selesai'");
                                             <td><?= $row["diagnosis_hpa"]; ?></td>
                                             <td><?= $row["hasil_hpa"]; ?></td>
                                             <td>
-                                            <a href="edit.php?id=<?= $row["id_proses"]; ?>" class="btn btn-warning" >Edit</a>
+                                            <a href="edit_hpa.php?id_hpa=<?= $row['id_hpa']; ?>&from=index" class="btn btn-warning" >Edit</a>
                                             <a href="delete.php?id=<?= $row["id_proses"]; ?>" class="btn btn-danger" onclick="return confirm('Anda yakin menghapusnya')" >Delete</a>
                                             </td>
                                         </tr>

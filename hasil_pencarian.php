@@ -463,9 +463,26 @@ if(isset($_POST["btn_tambah_hpa"])) {
                                             <input type="text" name="kode_hpa" class="form-control form-control-user" autocomplete="off" autofocus>
                                         </div>
                                         <div class="form-group col-12">
-                                        <label class="mb-2">Diagnosis</label>
-                                            <input type="text" name="diagnosis_hpa" class="form-control form-control-user" autocomplete="off">
-                                        </div>
+                                            <div class="row">
+                                                <div class="form-group col-4">
+                                                <label class="mb-2">Lokasi</label>
+                                                    <input type="text" name="lokasi_hpa" class="form-control form-control-user" autocomplete="off">
+                                                </div>
+                                                <div class="form-group col-4">
+                                                <label class="mb-2">Jenis pemeriksaan</label>
+                                                    <select name="jenis_pemeriksaan_hpa" class="form-control form-control-user" autocomplete="off">
+                                                        <option selected value="Biopsi">Biopsi</option>
+                                                        <option value="Biopsi">Operasi</option>
+                                                        <option value="Biopsi">Kerokan</option>
+                                                        <option value="Biopsi">Ekstirpasi Tumor</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-4">
+                                                <label class="mb-2">Diagnosis</label>
+                                                    <input type="text" name="diagnosis_hpa" class="form-control form-control-user" autocomplete="off">
+                                                </div>
+                                            </div> 
+                                        </div>                                       
                                         <div class="form-group col-12">
                                         <label class="mb-2">Tangal Blangko Sampel</label>
                                             <input type="date" name="tgl_hpa" class="form-control form-control-user" autocomplete="off">
@@ -477,7 +494,7 @@ if(isset($_POST["btn_tambah_hpa"])) {
                                         <div class="form-group col-12">
                                         <label class="mb-2">Pengirim</label>
                                             <select name="id_pengirim" class="form-control form-control-user" autocomplete="off">
-                                            <option selected value="37">Belum Dipilih</option>
+                                            <option selected value="1">Belum Dipilih</option>
                                                 <?php foreach ($data_pengirim as $row) : ?>
                                                 <option value="<?= $row['id_pengirim']; ?>"><?= $row['nama_pengirim']; ?> - <?= $row['ruangan']; ?></option>
                                                 <?php endforeach; ?>
