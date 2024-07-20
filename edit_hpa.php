@@ -6,7 +6,11 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 require 'functions.php';
-$id_hpa = $_GET["id_hpa"];
+if (isset($_GET['id_proses']) && isset($_GET['id_hpa'])) {
+    $id_proses = $_GET['id_proses'];
+    $id_hpa = $_GET['id_hpa'];
+    $from = isset($_GET['from']) ? $_GET['from'] : '';
+
 $isFromReading = isset($_GET['from']) && $_GET['from'] === 'reading';
 $isFromIndex = isset($_GET['from']) && $_GET['from'] === 'index';
 $DATA_HPA = query("SELECT * FROM hpa 
@@ -31,6 +35,7 @@ if (isset($_POST["btn_simpan_hpa"])) {
     $upload = edit_hpa($_POST);
     header("Location: grossing.php");
     exit;
+}
 }
 ?>
 <!DOCTYPE html>
@@ -412,8 +417,8 @@ if (isset($_POST["btn_simpan_hpa"])) {
                                         <h6 class="m-2 font-weight-bold text-primary">Edit data HPA</h6>
                                     </div>
                                     <div class="col-1">
-                                        <a href="cetak.php" target="_blank" class="btn btn-primary btn-user btn-block">
-                                        <i class="fas fa-print"></i> cetak
+                                        <a href="cetak_besar.php?id_proses=<?= $id_proses; ?>&id_hpa=<?= $id_hpa; ?>" target="_blank" class="btn btn-primary btn-user btn-block">
+                                        <i class="fas fa-print"></i> Cetak Kertas Besar
                                         </a>
                                     </div>
                                 </div>   

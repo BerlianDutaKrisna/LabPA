@@ -7,7 +7,7 @@ if (!isset($_SESSION["login"])) {
 }
 require 'functions.php';
 $data_proses = query("SELECT *, DATE_FORMAT(tgl_hasil_hpa, '%d-%m-%Y') AS format_tgl_hasil_hpa, DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS formatted_date, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS formatted_time  FROM proses 
+               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS formatted_time FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
