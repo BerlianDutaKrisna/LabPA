@@ -15,7 +15,10 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
+    $result = mysqli_query($conn, "SELECT user.*, analis.*
+    FROM user
+    INNER JOIN analis ON user.id_analis = analis.id_analis
+    WHERE user.username = '$username'");
     
     if ( mysqli_num_rows($result) === 1) {
         //Cek Password
@@ -25,6 +28,8 @@ if (isset($_POST['login'])) {
             $_SESSION['login'] = true;
             $_SESSION['username'] = $row['username'];
             $_SESSION["id_analis"] = $row["id_analis"];
+            $_SESSION["nama_analis"] = $row["nama_analis"];
+            $_SESSION["foto_analis"] = $row["foto_analis"];
             $_SESSION["id_dokter"] = $row["id_dokter"];            
             header("Location: index.php");
             exit;

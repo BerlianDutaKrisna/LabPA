@@ -80,6 +80,7 @@ proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
 INNER JOIN analis ON proses.id_analis = analis.id_analis 
+INNER JOIN dokter ON hpa.id_dokter = dokter.id_dokter 
 WHERE jenis_proses = 'reading'
 ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
@@ -350,9 +351,9 @@ WHERE jenis_proses != 'selesai'");
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['username']; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['nama_analis']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/berlian.jpg">
+                                    src="img/<?= $_SESSION['foto_analis']; ?>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -423,7 +424,7 @@ WHERE jenis_proses != 'selesai'");
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                         SITOLOGI ( SRS )</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                 </div>
                 <div class="col-auto">
                     <i class="fas fa-prescription-bottle fa-2x text-gray-300"></i>
@@ -442,7 +443,7 @@ WHERE jenis_proses != 'selesai'");
                     <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Fine Needle Aspiration Biopsy ( FNAB )
                     </div>
                     <div class="row no-gutters align-items-center">
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                     </div>
                 </div>
                 <div class="col-auto">
@@ -461,7 +462,7 @@ WHERE jenis_proses != 'selesai'");
                 <div class="col mr-2">
                     <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                         Imunohistokimia</div>
-                    <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
                 </div>
                 <div class="col-auto">
                     <i class="fas fa-vials fa-2x text-gray-300"></i>
@@ -585,6 +586,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -604,9 +607,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_msa"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_msa"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_ssa"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_ssa"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_msa"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_msa"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_ssa"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_ssa"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -630,6 +635,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -649,9 +656,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_msl"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_msl"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_ssl"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_ssl"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_msl"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_msl"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_ssl"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_ssl"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -675,6 +684,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -694,9 +705,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mgr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mgr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_sgr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_sgr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mgr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mgr"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_sgr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_sgr"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -720,6 +733,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -739,9 +754,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mpr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mpr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_spr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_spr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mpr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mpr"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_spr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_spr"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -765,6 +782,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -784,9 +803,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mem"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_sem"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_sem"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mem"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mrd"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_sem"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_sem"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -810,6 +831,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -829,9 +852,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mtr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mtr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_str"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_str"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mtr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mtr"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_str"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_str"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -855,6 +880,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -874,9 +901,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mrd"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_srd"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_srd"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mrd"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mrd"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_srd"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_srd"], 'H:i'); ?></td>
                                         <td><?= $row['nama_dokter']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -900,6 +929,8 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <th>No</th>
                                         <th>Kode Sampel</th>
+                                        <th>Nomer Rekamedis</th>
+                                        <th>Nama Pasien</th>
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
@@ -919,9 +950,11 @@ WHERE jenis_proses != 'selesai'");
                                     <tr>
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
+                                        <td><?= $row['norm_pasien']; ?></td>
+                                        <td><?= $row['nama_pasien']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mwr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mwr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_swr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_swr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mwr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mwr"], 'H:i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_swr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_swr"], 'H:i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  

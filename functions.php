@@ -219,16 +219,16 @@ function upload() {
     $namafile = $_FILES['foto_hpa']['name'];
     $ukuranfile = $_FILES['foto_hpa']['size'];
     $tmpname = $_FILES['foto_hpa']['tmp_name'];
-    $cekjenisgambar = ['jpg','jpeg','png','svg'];
+    $cekjenisgambar = ['JPG','jpg','jpeg','png','svg'];
     $ekstensigambar = explode('.',$namafile);
     $ekstensigambar = strtolower(end($ekstensigambar));
     if ( !in_array($ekstensigambar,$cekjenisgambar)){
         echo "<script>
-                alert ('format harus jpg.jpeg,png');
+                alert ('format harus jpg.jpeg.png');
               </script>";
               return false;
     }
-    if($ukuranfile > 100000){
+    if($ukuranfile > 5000000){
         echo "<script>
                 alert ('ukuran foto terlalu besar');
               </script>";

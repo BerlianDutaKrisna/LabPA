@@ -6,8 +6,19 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 require 'functions.php';
-$data_proses = query("SELECT *, DATE_FORMAT(tgl_hasil_hpa, '%d-%m-%Y') AS format_tgl_hasil_hpa, DATE_FORMAT(tgl_mengerjakan, '%d-%m-%Y') AS formatted_date, 
-               DATE_FORMAT(tgl_mengerjakan, '%H:%i') AS formatted_time  FROM proses 
+function formatTanggal($date, $format) {
+    if (is_null($date) || empty($date)) {
+        return ''; // Anda dapat menyesuaikan teks placeholder ini
+    }
+    $english = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 
+                     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 
+                     'September', 'October', 'November', 'December');
+    $indonesian = array('Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 
+                        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 
+                        'September', 'Oktober', 'November', 'Desember');
+    return str_replace($english, $indonesian, date($format, strtotime($date)));
+}
+$data_proses = query("SELECT * FROM proses 
 proses
 INNER JOIN hpa ON proses.id_hpa = hpa.id_hpa
 INNER JOIN pasien ON hpa.id_pasien = pasien.id_pasien
@@ -441,9 +452,9 @@ if (isset($_POST["btn_proses_kembali"])) {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['username']; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $_SESSION['nama_analis']; ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/berlian.jpg">
+                                    src="img/<?= $_SESSION['foto_analis']; ?>">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -603,7 +614,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                 <td><?= $i ?></td>
                                                 <td><?= $row['kode_hpa']; ?></td>
                                                 <td><?= $row['nama_pasien']; ?></td>
-                                                <td><?= $row['format_tgl_hasil_hpa']; ?></td>
+                                                <td><?=formatTanggal($row["tgl_hasil_hpa"], 'l, d F Y'); ?></td>
                                                 <td><?= $row['nama_analis']; ?></td>
                                                 <td><input type="checkbox" name="id_proses[]" value="<?= $row['id_proses']; ?>:<?= $row['id_hpa']; ?>" class="form-control form-control-user" autocomplete="off"></td>
                                                 <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>
