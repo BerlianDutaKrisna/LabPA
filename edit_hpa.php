@@ -19,11 +19,11 @@ INNER JOIN dokter ON hpa.id_dokter = dokter.id_dokter
 INNER JOIN pengirim ON hpa.id_pengirim = pengirim.id_pengirim
 WHERE id_hpa = $id_hpa")[0];
 
-$DATA_DOKTER = query("SELECT * FROM dokter WHERE spesialis_dokter = 'patologi anatomi'");
+$DATA_DOKTER = query("SELECT * FROM dokter");
 $DATA_PENGIRIM = query("SELECT * FROM pengirim");
 if (isset($_POST["btn_upload_hpa"])) {
     $upload = edit_hpa($_POST);
-    header("Location: edit_hpa.php?id_hpa=$id_hpa");
+    header("Location: edit_hpa.php?id_proses=$id_proses&id_hpa=$id_hpa");
     
 }
 if (isset($_POST["btn_simpan_hpa"]) && $isFromReading) {

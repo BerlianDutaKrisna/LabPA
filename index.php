@@ -7,6 +7,9 @@ if (!isset($_SESSION["login"])) {
 }
 require 'functions.php';
 function formatTanggal($date, $format) {
+    if (is_null($date) || empty($date)) {
+        return ''; // Anda dapat menyesuaikan teks placeholder ini
+    }
     $english = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 
                      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 
                      'September', 'October', 'November', 'December');
@@ -90,28 +93,28 @@ ORDER BY ABS(TIMESTAMPDIFF(SECOND, tgl_hasil_hpa, NOW()))");
 
 $jumlah_samples_accepted = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'samples accepted'");
+WHERE jenis_proses = 'samples accepted' AND status_proses != 'checked'");
 $jumlah_slicing = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'slicing'");
+WHERE jenis_proses = 'slicing' AND status_proses != 'sliced'");
 $jumlah_grossing = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'grossing'");
+WHERE jenis_proses = 'grossing' AND status_proses != 'grossed'");
 $jumlah_processing = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'processing'");
+WHERE jenis_proses = 'processing' AND status_proses != 'processed'");
 $jumlah_embedding = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'embedding'");
+WHERE jenis_proses = 'embedding' AND status_proses != 'embedded'");
 $jumlah_trimming = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'trimming'");
+WHERE jenis_proses = 'trimming' AND status_proses != 'trimmed'");
 $jumlah_reading = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'reading'");
+WHERE jenis_proses = 'reading' AND status_proses != 'already read'");
 $jumlah_writing = query("SELECT COUNT(*) AS total_rows
 FROM proses
-WHERE jenis_proses = 'writing'");
+WHERE jenis_proses = 'writing' AND status_proses != 'already writen'");
 $jumlah_proses_hpa = query("SELECT COUNT(*) AS total_rows
 FROM proses
 WHERE jenis_proses != 'selesai'");
@@ -139,7 +142,7 @@ WHERE jenis_proses != 'selesai'");
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
     <style>
         .diterima {
             color: red;
@@ -491,7 +494,7 @@ WHERE jenis_proses != 'selesai'");
     <div class="row">
         <div class="m-3"> 
             <a href="samples_accepted.php" class="btn btn-primary btn-icon-split btn-lg">
-                <span class="icon text-red">
+                <span class="icon <?= ($jumlah_samples_accepted[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_samples_accepted[0]['total_rows']?>
                 </span>
                 <span class="text">Samples Accepted</span>
@@ -499,7 +502,7 @@ WHERE jenis_proses != 'selesai'");
         </div>
         <div class="m-3">
             <a href="slicing.php" class="btn btn-primary btn-icon-split btn-lg">
-                <span class="icon text-white">
+                <span class="icon <?= ($jumlah_slicing[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_slicing[0]['total_rows']?>
                 </span>
                 <span class="text">Slicing</span>
@@ -507,7 +510,7 @@ WHERE jenis_proses != 'selesai'");
         </div>
         <div class="m-3">
             <a href="grossing.php" class="btn btn-primary btn-icon-split btn-lg">
-                <span class="icon text-white">
+                <span class="icon <?= ($jumlah_grossing[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_grossing[0]['total_rows']?>
                 </span>
                 <span class="text">Grossing</span>
@@ -515,7 +518,7 @@ WHERE jenis_proses != 'selesai'");
         </div>                                    
         <div class="m-3">
             <a href="processing.php" class="btn btn-primary btn-icon-split btn-lg">
-                <span class="icon text-white">
+                <span class="icon <?= ($jumlah_processing[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_processing[0]['total_rows']?>
                 </span>
                 <span class="text">Processing</span>
@@ -523,7 +526,7 @@ WHERE jenis_proses != 'selesai'");
         </div>
         <div class="m-3">
             <a href="embedding.php" class="btn btn-primary btn-icon-split btn-lg">
-                <span class="icon text-white">
+                <span class="icon <?= ($jumlah_embedding[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_embedding[0]['total_rows']?>
                 </span>
                 <span class="text">Embedding</span>
@@ -531,7 +534,7 @@ WHERE jenis_proses != 'selesai'");
         </div>
         <div class="m-3">
             <a href="trimming.php" class="btn btn-primary btn-icon-split btn-lg">
-                <span class="icon text-white">
+                <span class="icon <?= ($jumlah_trimming[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_trimming[0]['total_rows']?>
                 </span>
                 <span class="text">Trimming</span>
@@ -539,7 +542,7 @@ WHERE jenis_proses != 'selesai'");
         </div>
         <div class="m-3">
             <a href="reading.php" class="btn btn-primary btn-icon-split btn-lg">
-            <span class="icon text-white">
+            <span class="icon <?= ($jumlah_reading[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
             <?= $jumlah_reading[0]['total_rows']?>
             </span>
             <span class="text">Reading</span>
@@ -547,7 +550,7 @@ WHERE jenis_proses != 'selesai'");
         </div>
         <div class="m-3">
             <a href="writing.php" class="btn btn-primary btn-icon-split btn-lg">
-            <span class="icon text-white">
+            <span class="icon <?= ($jumlah_writing[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
             <?= $jumlah_writing[0]['total_rows']?>
             </span>
             <span class="text">Writing</span>
@@ -602,8 +605,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_msa"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_msa"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_ssa"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_ssa"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_msa"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_msa"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_ssa"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_ssa"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -647,8 +650,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_msl"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_msl"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_ssl"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_ssl"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_msl"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_msl"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_ssl"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_ssl"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -692,8 +695,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mgr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mgr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_sgr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_sgr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mgr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mgr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_sgr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_sgr"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -737,8 +740,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mpr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mpr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_spr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_spr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mpr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mpr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_spr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_spr"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -782,8 +785,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mem"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_sem"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_sem"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mem"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_sem"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_sem"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -827,8 +830,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mtr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mtr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_str"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_str"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mtr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mtr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_str"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_str"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
@@ -855,7 +858,7 @@ WHERE jenis_proses != 'selesai'");
                                         <th>Status Proses</th>
                                         <th>Waktu Mulai</th>
                                         <th>Waktu Selesai</th>
-                                        <th>Analis</th>
+                                        <th>Dokter</th>
                                     </tr>
                                     <?php $i = 1; ?>                                            
                                     <?php foreach ($data_reading as $row) : ?>
@@ -872,9 +875,9 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mrd"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_srd"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_srd"], 'H::i'); ?></td>
-                                        <td><?= $row['nama_analis']; ?></td>
+                                        <td><?=formatTanggal($row["wkt_mrd"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mrd"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_srd"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_srd"], 'H::i'); ?></td>
+                                        <td><?= $row['nama_dokter']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  
                                     <?php endforeach; ?>                        
@@ -917,8 +920,8 @@ WHERE jenis_proses != 'selesai'");
                                         <td><?= $i ?></td>
                                         <td><?= $row['kode_hpa']; ?></td>
                                         <td  class='<?= $class; ?>'><?= $row['status_proses']; ?></td>                                      
-                                        <td><?=formatTanggal($row["wkt_mwr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_mwr"], 'H::i'); ?></td>
-                                        <td><?=formatTanggal($row["wkt_swr"], 'l, d F Y'); ?> pukul: <?=formatTanggal($row["wkt_swr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_mwr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_mwr"], 'H::i'); ?></td>
+                                        <td><?=formatTanggal($row["wkt_swr"], 'l, d F Y'); ?> - <?=formatTanggal($row["wkt_swr"], 'H::i'); ?></td>
                                         <td><?= $row['nama_analis']; ?></td>
                                         <?php $i++; ?>
                                     </tr>  

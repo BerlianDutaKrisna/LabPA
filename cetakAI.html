@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPA Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        .header-table, .quality-table, .traking-table {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            display: inline-block;
+            margin: 0 auto;
+        }
+        .image-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Table -->
+    <table class="header-table">
+        <tr>
+            <td>Kode HPA : H.905/24</td>
+            <td>Tanggal Mengerjakan :<br> Minggu, 21 Juli 2024</td>
+            <td>Tanggal Janji Hasil :<br> Rabu, 24 Juli 2024</td>
+            <td>APD :</td>
+        </tr>
+    </table>
+
+    <!-- Makroskopis Table -->
+    <table>
+        <tr>
+            <th>Makroskopis</th>
+            <th>Analis PA : Ilham Tyas Ismadi, A.Md.Kes</th>
+        </tr>
+        <tr>
+            <td>Diterima 1 potong jaringan berat 100 g</td>
+            <td rowspan="2" class="image-container">
+                <img src="img/foto_hpa/sample_image.jpg" width="200" alt="">
+            </td>
+        </tr>
+    </table>
+
+    <!-- Mikroskopis Table -->
+    <table>
+        <tr>
+            <th>Mikroskopis</th>
+            <th>Dokter PA : dr. Vinna Chrisdianti, Sp.PA</th>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+    </table>
+
+    <!-- Tracking and Quality Table -->
+    <table class="traking-table">
+        <tr>
+            <th>Traking Spesimen</th>
+            <th>Kualitas Sediaan</th>
+        </tr>
+        <tr>
+            <td>1. Bahan Diterima : Minggu, 21 Juli 2024 - 11:16</td>
+            <td>1. Volume cairan fiksasi sesuai?</td>
+        </tr>
+        <tr>
+            <td>2. Makroskopis : Minggu, 21 Juli 2024 - 17:39</td>
+            <td>2. Jaringan terfiksasi merata?</td>
+        </tr>
+        <tr>
+            <td>3. Processing :</td>
+            <td>3. Blok parafin tidak ada fragmentasi?</td>
+        </tr>
+        <tr>
+            <td>4. Embeding (HPA) :</td>
+            <td>4. Sediaan tanpa lipatan?</td>
+        </tr>
+        <tr>
+            <td>5. Mikrotomi (HPA) :</td>
+            <td>5. Sediaan tanpa goresan mata pisau?</td>
+        </tr>
+        <tr>
+            <td>6. Pewarnaan :</td>
+            <td>6. Kontras warna sediaan cukup jelas?</td>
+        </tr>
+        <tr>
+            <td>7. Entelan :</td>
+            <td>7. Sediaan tanpa gelembung?</td>
+        </tr>
+        <tr>
+            <td>8. Selesai :</td>
+            <td>8. Sediaan tanpa bercak/sidik jari?</td>
+        </tr>
+    </table>
+
+    <!-- Image Gallery -->
+    <table>
+        <tr>
+            <th>Gambar</th>
+        </tr>
+        <tr>
+            <td>
+                <div style="display: flex; justify-content: space-between;">
+                    <img src="img/foto_hpa/sample_image.jpg" width="100" alt="">
+                    <img src="img/foto_hpa/sample_image.jpg" width="100" alt="">
+                    <img src="img/foto_hpa/sample_image.jpg" width="100" alt="">
+                    <img src="img/foto_hpa/sample_image.jpg" width="100" alt="">
+                    <img src="img/foto_hpa/sample_image.jpg" width="100" alt="">
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

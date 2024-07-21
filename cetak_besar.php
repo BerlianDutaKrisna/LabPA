@@ -8,6 +8,9 @@ if (!isset($_SESSION["login"])) {
 require 'functions.php';
 
 function formatTanggal($date, $format) {
+    if (is_null($date) || empty($date)) {
+        return ''; // Anda dapat menyesuaikan teks placeholder ini
+    }
     $english = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 
                      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 
                      'September', 'October', 'November', 'December');
@@ -83,9 +86,14 @@ if (isset($_GET['id_proses']) && isset($_GET['id_hpa'])) {
             font-weight: bold;
         }
         .text {
-            display: block; /* Ensure the width is maintained even if there's no content */
+            display: inline-block; /* Ensure the width is maintained even if there's no content */
             width: 194mm; /* Approximately the width of the printable area considering the margin */
-            min-height: 280px; /* Maintain height */
+            min-height: 180px; /* Maintain height */
+        }
+        .foto {
+            display: inline-block; /* Ensure the width is maintained even if there's no content */
+            width: 210px; /* Approximately the width of the printable area considering the margin */
+            min-height: 45px; /* Maintain height */
         }
         .gambar {
             padding: 50px;            
@@ -110,7 +118,8 @@ if (isset($_GET['id_proses']) && isset($_GET['id_hpa'])) {
                 <td colspan="2" >Analis PA : <?= $DATA_PROSES["nama_analis"]; ?></td>
             </tr>
             <tr>
-                <td colspan="4" class="text"><?= $DATA_HPA["makroskopis_hpa"]; ?></td>
+                <td colspan="1" class="foto"><img src="img/foto_hpa/<?= $DATA_HPA["foto_hpa"];?>" width="200" alt="" ></td>
+                <td colspan="3" class="text"><?= $DATA_HPA["makroskopis_hpa"]; ?></td>
             </tr>
             <tr class="judul">
                 <td colspan="2">Mikroskopis</td>
@@ -124,35 +133,35 @@ if (isset($_GET['id_proses']) && isset($_GET['id_hpa'])) {
                 <td colspan="2">Kualitas Sediaan</td>
             </tr>
             <tr>
-                <td colspan="2">1. Bahan Diterima : <?= formatTanggal($DATA_PROSES["wkt_msa"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">1. Bahan Diterima : <?= formatTanggal($DATA_PROSES["wkt_msa"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">1. Volume cairan fiksasi sesuai?</td>
             </tr>
             <tr>
-                <td colspan="2">2. Makroskopis : <?= formatTanggal($DATA_PROSES["wkt_mgr"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">2. Makroskopis : <?= formatTanggal($DATA_PROSES["wkt_mgr"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">2. Jaringan terfiksasi merata?</td>
             </tr>
             <tr>
-                <td colspan="2">3. Prosessing : <?= formatTanggal($DATA_PROSES["wkt_mpr"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">3. Prosessing : <?= formatTanggal($DATA_PROSES["wkt_mpr"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">3. Blok parafin tidak ada fragmentasi?</td>
             </tr>
             <tr>
-                <td colspan="2">4. Embeding (HPA) : <?= formatTanggal($DATA_PROSES["wkt_mem"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">4. Embeding (HPA) : <?= formatTanggal($DATA_PROSES["wkt_mem"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">4. Sediaan tanpa lipatan?</td>
             </tr>
             <tr>
-                <td colspan="2">5. Mikrotomi (HPA) : <?= formatTanggal($DATA_PROSES["wkt_mtr"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">5. Mikrotomi (HPA) : <?= formatTanggal($DATA_PROSES["wkt_mtr"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">5. sediaan tanpa goresan mata pisau?</td>
             </tr>
             <tr>
-                <td colspan="2">6. Pewarnaan : <?= formatTanggal($DATA_PROSES["wkt_str"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">6. Pewarnaan : <?= formatTanggal($DATA_PROSES["wkt_str"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">6. Kontras warna sediaan cukup jelas?</td>
             </tr>
             <tr>
-                <td colspan="2">7. Entelan : <?= formatTanggal($DATA_PROSES["wkt_str"], 'H:i l, d F Y'); ?></td>
+                <td colspan="2">7. Entelan : <?= formatTanggal($DATA_PROSES["wkt_str"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">7. Sediaan tanpa gelembung?</td>
             </tr>
             <tr>
-                <td colspan="2">8. Selesai : <?= formatTanggal($DATA_HPA["tgl_hasil_hpa"], 'l, d F Y'); ?></td>
+                <td colspan="2">8. Selesai : <?= formatTanggal($DATA_PROSES["wkt_swr"], 'l, d F Y - H:i'); ?></td>
                 <td colspan="2">8. Sediaan tanpa bercak/sidik jari?</td>
             </tr>
         </tbody>
