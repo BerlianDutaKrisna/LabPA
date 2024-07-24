@@ -538,7 +538,7 @@ WHERE jenis_proses != 'selesai'");
                 <span class="icon <?= ($jumlah_trimming[0]['total_rows']>0)? 'text-red' : 'text-white';?>">
                 <?= $jumlah_trimming[0]['total_rows']?>
                 </span>
-                <span class="text">Trimming</span>
+                <span class="text">Trimming / Staining</span>
             </a>                                    
         </div>
         <div class="m-3">
@@ -555,6 +555,13 @@ WHERE jenis_proses != 'selesai'");
             <?= $jumlah_writing[0]['total_rows']?>
             </span>
             <span class="text">Writing</span>
+            </a>                                    
+        </div>
+        <div class="m-3">
+            <a href="verification.php" class="btn btn-primary btn-icon-split btn-lg">
+            <span class="icon ">
+            </span>
+            <span class="text">Verifikasi</span>
             </a>                                    
         </div>
     </div>
@@ -823,7 +830,7 @@ WHERE jenis_proses != 'selesai'");
                                             <span class="icon text-white-50">
                                             <i class="fas fa-grip-horizontal"></i>
                                             </span>
-                                            <span class="text">Trimming</span></a>
+                                            <span class="text">Trimming / Staining</span></a>
                                         </th>
                                     </tr>
                                 </thead>
