@@ -635,7 +635,7 @@ if (isset($_POST["btn_proses_kembali"])) {
                                                     <input type="checkbox" name="ks5" value="10">
                                                     <br>
                                                     <label>Kontras warna Sediaan cukup jelas ?</label>
-                                                    <input type="checkbox" name="ks6" value="10">
+                                                    <input type="checkbox" name="ks6" value="20">
                                                     <br>
                                                     <label>Sediaan tanpa gelebung udara ?</label>
                                                     <input type="checkbox" name="ks7" value="10">
